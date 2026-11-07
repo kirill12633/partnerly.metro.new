@@ -1,4 +1,5 @@
 const $ = id => document.getElementById(id);
+const API = "https://metro-new-partnerly.kirilltyr123.workers.dev";
 let lang = localStorage.getItem("partnerly-lang") || "ru";
 
 function setLang() {
@@ -17,7 +18,7 @@ async function load() {
   if ($("q").value.trim()) p.set("q", $("q").value.trim());
   if ($("category").value !== "all") p.set("category", $("category").value);
   try {
-    const r = await fetch("/api/servers?" + p);
+    const r = await fetch(API + "/api/servers?" + p);
     const d = await r.json();
     const items = d.items || [];
     $("count").textContent = items.length ? items.length : (lang === "ru" ? "Пока пусто" : "No listings");
@@ -50,7 +51,7 @@ document.querySelector(".chips").addEventListener("click", e => {
   load();
 });
 $("hamb").addEventListener("click", () => document.querySelector(".topbar nav").classList.toggle("open"));
-$("login").addEventListener("click", () => window.location.assign("/api/auth/discord"));
+$("login").addEventListener("click", () => window.location.assign(API + "/api/auth/discord"));
 $("add").addEventListener("click", () => window.location.assign("/api/auth/discord"));
 $("year").textContent = new Date().getFullYear();
 setLang();
