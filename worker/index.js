@@ -34,7 +34,7 @@ async function readSession(request, secret) {
   const value = cookie(request, COOKIE_SESSION);
   if (!value || !secret) return null;
   const [payload, signature] = value.split(".");
-  if (!payload || !signature || !(await sign(payload, secret)).includes(signature)) return null;
+  if (!payload || !signature || (await sign(payload, secret)) !== signature) return null;
   try {
     const data = JSON.parse(new TextDecoder().decode(decodeB64url(payload)));
     return data.exp > Math.floor(Date.now() / 1000) ? data : null;
@@ -106,12 +106,10 @@ async function handleDiscordCallback(request, env) {
   ).bind(userId, profile.id, profile.global_name || profile.username, avatarUrl).run();
   const existing = await env.DB.prepare("SELECT id FROM users WHERE discord_id = ?").bind(profile.id).first();
   const session = await makeSession(existing.id, env.SESSION_SECRET);
-  return redirect("/", {
-    "Set-Cookie": [
-      cookieHeader(COOKIE_SESSION, session, SESSION_TTL),
-      clearCookie(COOKIE_STATE)
-    ]
-  });
+  const headers = new Headers();
+  headers.append("Set-Cookie", cookieHeader(COOKIE_SESSION, session, SESSION_TTL));
+  headers.append("Set-Cookie", clearCookie(COOKIE_STATE));
+  return redirect("/", headers);
 }
 
 async function handleAuthMe(request, env) {
