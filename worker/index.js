@@ -2,10 +2,18 @@ const COOKIE_SESSION = "mnp_session";
 const COOKIE_STATE = "mnp_oauth_state";
 const SESSION_TTL = 60 * 60 * 24 * 7;
 const CALLBACK_PATH = "/api/auth/discord/callback";
+const PUBLIC_SITE_URL = "https://kirill12633.github.io/partnerly.metro.new";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": PUBLIC_SITE_URL,
+  "Access-Control-Allow-Credentials": "true",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Vary": "Origin"
+};
 
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), {
   status,
-  headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...headers }
+  headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...corsHeaders, ...headers }
 });
 
 function cookie(request, name) {
@@ -75,7 +83,7 @@ async function handleDiscordCallback(request, env) {
   const savedState = cookie(request, COOKIE_STATE);
   const code = url.searchParams.get("code");
   if (!state || !savedState || state !== savedState || !code) {
-    return redirect("/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
+    return redirect(PUBLIC_SITE_URL + "/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
   }
   const callback = new URL(CALLBACK_PATH, url.origin).toString();
   const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
@@ -109,7 +117,7 @@ async function handleDiscordCallback(request, env) {
   const headers = new Headers();
   headers.append("Set-Cookie", cookieHeader(COOKIE_SESSION, session, SESSION_TTL));
   headers.append("Set-Cookie", clearCookie(COOKIE_STATE));
-  return redirect("/", headers);
+  return redirect(PUBLIC_SITE_URL + "/", headers);
 }
 
 async function handleAuthMe(request, env) {
@@ -135,6 +143,9 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     try {
+      if (request.method === "OPTIONS" && url.pathname.startsWith("/api/")) {
+        return new Response(null, { status: 204, headers: corsHeaders });
+      }
       if (url.pathname === "/api/health") {
         return json({ ok: true, service: "metro-new-partnerly", databaseConfigured: Boolean(env.DB), oauthConfigured: requireOAuth(env) });
       }
