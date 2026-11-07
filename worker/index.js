@@ -3,8 +3,9 @@ const COOKIE_STATE = "mnp_oauth_state";
 const SESSION_TTL = 60 * 60 * 24 * 7;
 const CALLBACK_PATH = "/api/auth/discord/callback";
 const PUBLIC_SITE_URL = "https://kirill12633.github.io/partnerly.metro.new";
+const PUBLIC_SITE_ORIGIN = "https://kirill12633.github.io";
 const corsHeaders = {
-  "Access-Control-Allow-Origin": PUBLIC_SITE_URL,
+  "Access-Control-Allow-Origin": PUBLIC_SITE_ORIGIN,
   "Access-Control-Allow-Credentials": "true",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
@@ -48,8 +49,8 @@ async function readSession(request, secret) {
     return data.exp > Math.floor(Date.now() / 1000) ? data : null;
   } catch { return null; }
 }
-function cookieHeader(name, value, maxAge) {
-  return name + "=" + value + "; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=" + maxAge;
+function cookieHeader(name, value, maxAge, sameSite = "Lax") {
+  return name + "=" + value + "; Path=/; HttpOnly; Secure; SameSite=" + sameSite + "; Max-Age=" + maxAge;
 }
 function clearCookie(name) {
   return name + "=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0";
@@ -115,7 +116,7 @@ async function handleDiscordCallback(request, env) {
   const existing = await env.DB.prepare("SELECT id FROM users WHERE discord_id = ?").bind(profile.id).first();
   const session = await makeSession(existing.id, env.SESSION_SECRET);
   const headers = new Headers();
-  headers.append("Set-Cookie", cookieHeader(COOKIE_SESSION, session, SESSION_TTL));
+  headers.append("Set-Cookie", cookieHeader(COOKIE_SESSION, session, SESSION_TTL, "None"));
   headers.append("Set-Cookie", clearCookie(COOKIE_STATE));
   return redirect(PUBLIC_SITE_URL + "/", headers);
 }
