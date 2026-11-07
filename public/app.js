@@ -13,6 +13,21 @@ function setLang() {
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
+async function loadAuth() {
+  try {
+    const response = await fetch(API + "/api/auth/me", { credentials: "include", cache: "no-store" });
+    const data = await response.json();
+    if (data.authenticated && data.user) {
+      $("login").textContent = (lang === "ru" ? "Вы вошли: " : "Signed in: ") + (data.user.username || "Discord");
+      $("login").title = "Discord ID: " + data.user.discord_id;
+    } else {
+      $("login").textContent = lang === "ru" ? "Войти через Discord" : "Continue with Discord";
+      $("login").title = "";
+    }
+  } catch {
+    $("login").textContent = lang === "ru" ? "Войти через Discord" : "Continue with Discord";
+  }
+}
 async function load() {
   const p = new URLSearchParams();
   if ($("q").value.trim()) p.set("q", $("q").value.trim());
@@ -39,6 +54,7 @@ $("lang").addEventListener("change", e => {
   localStorage.setItem("partnerly-lang", lang);
   setLang();
   load();
+  loadAuth();
 });
 $("search").addEventListener("click", load);
 $("q").addEventListener("keydown", e => { if (e.key === "Enter") load(); });
@@ -56,3 +72,4 @@ $("add").addEventListener("click", () => window.location.assign(API + "/api/auth
 $("year").textContent = new Date().getFullYear();
 setLang();
 load();
+loadAuth();
