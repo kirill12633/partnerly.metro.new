@@ -1,1 +1,57 @@
-const $=id=>document.getElementById(id);let lang=localStorage.getItem("partnerly-lang")||"ru";function setLang(){document.documentElement.lang=lang;$("lang").value=lang;document.querySelectorAll("[data-ru]").forEach(el=>el.textContent=el.dataset[lang]||el.dataset.ru);$("login").textContent=lang==="ru"?"Войти через Discord":"Continue with Discord";$("add").textContent=lang==="ru"?"Добавить сервер":"Add a server";$("q").placeholder=lang==="ru"?"Название, тема или тег…":"Name, topic or tag…";}function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}async function load(){const p=new URLSearchParams();if($("q").value.trim())p.set("q",$("q").value.trim());if($("category").value!=="all")p.set("category",$("category").value);try{const r=await fetch("/api/servers?"+p);const d=await r.json();const items=d.items||[];$("count").textContent=items.length?items.length:(lang==="ru"?"Пока пусто":"No listings");$("servers").innerHTML=items.length?items.map(s=>'<article class="server"><h3>'+esc(s.name)+'</h3><p>'+esc(s.description||"")+'</p><div class="meta">'+esc(s.category)+'　·　👥 '+Number(s.member_count||0).toLocaleString()+'　·　✦ '+Number(s.partner_count||0)+'</div></article>').join(""):'<div class="empty"><div>✧</div><h3>'+(lang==="ru"?"Пока нет опубликованных серверов":"No published servers yet")+'</h3><p>'+(lang==="ru"?"Новые сообщества появятся после проверки.":"New communities will appear after review.")+'</p></div>';}catch{$("servers").innerHTML='<div class="empty"><h3>Metro New Partnerly</h3><p>Каталог пока не подключён к базе данных.</p></div>';}}$("lang").addEventListener("change",e=>{lang=e.target.value;localStorage.setItem("partnerly-lang",lang);setLang();load();});$("search").addEventListener("click",load);$("q").addEventListener("keydown",e=>{if(e.key==="Enter")load();});$("category").addEventListener("change",load);document.querySelector(".chips").addEventListener("click",e=>{const b=e.target.closest("[data-cat]");if(!b)return;$("category").value=b.dataset.cat;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));load();});$("hamb").addEventListener("click",()=>document.querySelector(".topbar nav").classList.toggle("open"));$("login").addEventListener("click",()=>alert(lang==="ru"?"Discord OAuth2 подключим следующим этапом.":"Discord OAuth2 will be configured in the next stage."));$("add").addEventListener("click",()=>alert(lang==="ru"?"Добавление серверов станет доступно после настройки входа через Discord.":"Server submissions will be enabled after Discord sign-in setup."));$("year").textContent=new Date().getFullYear();setLang();load();
+const $ = id => document.getElementById(id);
+let lang = localStorage.getItem("partnerly-lang") || "ru";
+
+function setLang() {
+  document.documentElement.lang = lang;
+  $("lang").value = lang;
+  document.querySelectorAll("[data-ru]").forEach(el => el.textContent = el.dataset[lang] || el.dataset.ru);
+  $("login").textContent = lang === "ru" ? "Войти через Discord" : "Continue with Discord";
+  $("add").textContent = lang === "ru" ? "Добавить сервер" : "Add a server";
+  $("q").placeholder = lang === "ru" ? "Название, тема или тег…" : "Name, topic or tag…";
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+async function load() {
+  const p = new URLSearchParams();
+  if ($("q").value.trim()) p.set("q", $("q").value.trim());
+  if ($("category").value !== "all") p.set("category", $("category").value);
+  try {
+    const r = await fetch("/api/servers?" + p);
+    const d = await r.json();
+    const items = d.items || [];
+    $("count").textContent = items.length ? items.length : (lang === "ru" ? "Пока пусто" : "No listings");
+    $("servers").innerHTML = items.length ? items.map(s =>
+      '<article class="server"><h3>' + esc(s.name) + '</h3><p>' + esc(s.description || "") +
+      '</p><div class="meta">' + esc(s.category) + '　·　👥 ' + Number(s.member_count || 0).toLocaleString() +
+      '　·　✦ ' + Number(s.partner_count || 0) + '</div></article>'
+    ).join("") : '<div class="empty"><div>✧</div><h3>' +
+      (lang === "ru" ? "Пока нет опубликованных серверов" : "No published servers yet") +
+      '</h3><p>' + (lang === "ru" ? "Новые сообщества появятся после проверки." : "New communities will appear after review.") +
+      '</p></div>';
+  } catch {
+    $("servers").innerHTML = '<div class="empty"><h3>Metro New Partnerly</h3><p>Каталог пока не подключён к базе данных.</p></div>';
+  }
+}
+$("lang").addEventListener("change", e => {
+  lang = e.target.value;
+  localStorage.setItem("partnerly-lang", lang);
+  setLang();
+  load();
+});
+$("search").addEventListener("click", load);
+$("q").addEventListener("keydown", e => { if (e.key === "Enter") load(); });
+$("category").addEventListener("change", load);
+document.querySelector(".chips").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]");
+  if (!b) return;
+  $("category").value = b.dataset.cat;
+  document.querySelectorAll(".chip").forEach(x => x.classList.toggle("active", x === b));
+  load();
+});
+$("hamb").addEventListener("click", () => document.querySelector(".topbar nav").classList.toggle("open"));
+$("login").addEventListener("click", () => window.location.assign("/api/auth/discord"));
+$("add").addEventListener("click", () => window.location.assign("/api/auth/discord"));
+$("year").textContent = new Date().getFullYear();
+setLang();
+load();
