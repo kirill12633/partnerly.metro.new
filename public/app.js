@@ -52,7 +52,7 @@ document.querySelector(".chips").addEventListener("click", e => {
 });
 $("hamb").addEventListener("click", () => document.querySelector(".topbar nav").classList.toggle("open"));
 $("login").addEventListener("click", () => window.location.assign(API + "/api/auth/discord"));
-$("add").addEventListener("click", () => window.location.assign("/api/auth/discord"));
+$("add").addEventListener("click", () => window.location.assign(API + "/api/auth/discord"));
 $("year").textContent = new Date().getFullYear();
 setLang();
 load();
