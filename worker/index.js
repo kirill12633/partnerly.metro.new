@@ -97,12 +97,12 @@ async function handleDiscordCallback(request, env) {
       redirect_uri: callback
     })
   });
-  if (!tokenResponse.ok) return redirect("/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
+  if (!tokenResponse.ok) return redirect(PUBLIC_SITE_URL + "/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
   const token = await tokenResponse.json();
   const profileResponse = await fetch("https://discord.com/api/users/@me", {
     headers: { Authorization: "Bearer " + token.access_token }
   });
-  if (!profileResponse.ok) return redirect("/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
+  if (!profileResponse.ok) return redirect(PUBLIC_SITE_URL + "/?login=failed", { "Set-Cookie": clearCookie(COOKIE_STATE) });
   const profile = await profileResponse.json();
   const userId = crypto.randomUUID();
   const avatarUrl = profile.avatar
