@@ -7,7 +7,6 @@
 <link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Turnstile -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,20 +14,20 @@
     --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
     --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
     --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
-    --danger: #dc2626; --success: #16a34a;
+    --danger: #dc2626; --success: #16a34a; --warning: #d97706;
     --shadow-md: 0 4px 16px rgba(15,15,26,.06);
     --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
     --font: 'Inter', system-ui, sans-serif;
   }
   body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 15% 10%, rgba(99,102,241,.06), transparent 40%); }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 100px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 120px; }
 
-  /* Прогресс-бар */
-  .progress-bar { display: flex; gap: 0; margin-bottom: 32px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 6px; overflow: hidden; }
-  .progress-step { flex: 1; text-align: center; padding: 10px 8px; font-size: 12px; font-weight: 600; color: var(--dim-2); border-radius: 10px; transition: all .3s; position: relative; }
+  /* Прогресс */
+  .progress-bar { display: flex; margin-bottom: 28px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 6px; overflow: hidden; }
+  .progress-step { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: var(--dim-2); border-radius: 10px; transition: all .3s; }
   .progress-step.active { background: var(--accent); color: #fff; }
   .progress-step.done { color: var(--accent); }
-  .progress-step.done::after { content: ' ✓'; font-weight: 700; }
+  .progress-step.done::after { content: ' ✓'; }
 
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
   .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); }
@@ -38,7 +37,7 @@
   .back-link:hover { border-color: var(--accent); color: var(--accent); }
 
   h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
-  .sub { font-size: 14px; color: var(--dim); margin-bottom: 28px; line-height: 1.5; }
+  .sub { font-size: 14px; color: var(--dim); margin-bottom: 24px; line-height: 1.5; }
 
   .card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 18px; padding: 26px; box-shadow: var(--shadow-md); margin-bottom: 18px; }
   .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
@@ -52,25 +51,24 @@
   .field-error { font-size: 12px; color: var(--danger); margin-top: 4px; display: none; }
   .field-error.show { display: block; }
 
-  input[type="text"], input[type="number"], input[type="url"], input[type="email"], textarea, select {
+  input[type="text"], input[type="number"], input[type="url"], textarea, select {
     width: 100%; padding: 12px 15px; border-radius: 11px; border: 1px solid var(--border);
     background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit;
     outline: none; transition: all .2s;
   }
   input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99,102,241,.08); background: var(--bg-2); }
   input.error, textarea.error { border-color: var(--danger); }
-  input::placeholder, textarea::placeholder { color: var(--dim-2); }
   textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
 
-  /* Фото + кроп */
+  /* Фото */
   .photo-upload { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .photo-preview {
     width: 96px; height: 96px; border-radius: 16px; overflow: hidden;
     background: var(--accent-soft); display: grid; place-items: center;
     font-size: 32px; font-weight: 700; color: var(--accent); flex-shrink: 0;
-    border: 2px dashed var(--border); transition: all .2s; cursor: pointer; position: relative;
+    border: 2px dashed var(--border); cursor: pointer; transition: all .2s;
   }
   .photo-preview:hover { border-color: var(--accent); }
   .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
@@ -80,13 +78,18 @@
   .photo-btn.remove { color: var(--danger); border-color: #fecaca; margin-left: 6px; }
   .photo-btn.remove:hover { background: #fef2f2; }
 
-  /* Контакты, теги, чекбоксы (как раньше) */
+  /* Чекбоксы */
   .checkboxes { display: flex; flex-wrap: wrap; gap: 8px; }
   .checkbox-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; user-select: none; }
   .checkbox-chip:hover { border-color: var(--accent); }
   .checkbox-chip input { display: none; }
   .checkbox-chip.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .checkbox-chip.legal { border-radius: 10px; padding: 12px 14px; width: 100%; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; font-weight: 500; }
+  .checkbox-chip.legal input { display: inline-block; margin-top: 2px; accent-color: var(--accent); }
+  .checkbox-chip.legal.checked { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+  .checkbox-chip.legal a { color: var(--accent); }
 
+  /* Контакты, теги */
   .contact-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
   .contact-row select { flex: 0 0 150px; }
   .contact-row input { flex: 1; }
@@ -102,9 +105,10 @@
   .tags-input-wrap input { border: none; background: none; flex: 1; min-width: 100px; padding: 4px 6px; font-size: 13px; outline: none; box-shadow: none; }
   .tags-input-wrap input:focus { box-shadow: none; }
 
-  .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-  .btn-primary { flex: 1; min-width: 200px; padding: 15px 28px; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .25s; box-shadow: 0 4px 20px rgba(99,102,241,.3); display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .btn-primary:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(99,102,241,.4); }
+  /* Навигация визарда */
+  .wizard-nav { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-primary { flex: 1; padding: 15px 28px; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .25s; box-shadow: 0 4px 20px rgba(99,102,241,.3); display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-primary:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-2px); }
   .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
   .btn-secondary { padding: 15px 28px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
@@ -117,28 +121,28 @@
   .msg.show { display: block; }
   .msg.error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
   .msg.success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+  .msg.warning { background: #fffbeb; color: var(--warning); border: 1px solid #fde68a; }
 
   .auth-required { display: none; text-align: center; padding: 60px 24px; }
   .auth-required.show { display: block; }
   .auth-required .icon { font-size: 48px; margin-bottom: 16px; }
   .auth-required h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
   .auth-required p { font-size: 14px; color: var(--dim); margin-bottom: 24px; line-height: 1.5; }
-  .auth-required a { display: inline-block; padding: 14px 28px; border-radius: 12px; background: #5865f2; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; transition: all .2s; }
-  .auth-required a:hover { background: #4752c4; transform: translateY(-2px); }
+  .auth-required a { display: inline-block; padding: 14px 28px; border-radius: 12px; background: #5865f2; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
 
   .success-screen { display: none; text-align: center; padding: 60px 24px; }
   .success-screen.show { display: block; }
   .success-screen .icon { font-size: 64px; margin-bottom: 16px; }
   .success-screen h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-  .success-screen p { font-size: 15px; color: var(--dim); margin-bottom: 28px; line-height: 1.6; max-width: 400px; margin-left: auto; margin-right: auto; }
-  .success-screen .details { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: left; max-width: 400px; margin: 0 auto 28px; }
+  .success-screen p { font-size: 15px; color: var(--dim); margin-bottom: 28px; line-height: 1.6; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .success-screen .details { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: left; max-width: 420px; margin: 0 auto 28px; }
   .success-screen .details div { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
   .success-screen .details div:last-child { border-bottom: none; }
   .success-screen .details span:first-child { color: var(--dim); }
   .success-screen .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-  .guild-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; padding: 4px; }
-  .guild-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; transition: all .2s; text-align: left; }
+  .guild-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; padding: 4px; }
+  .guild-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; transition: all .2s; }
   .guild-item:hover { border-color: var(--accent); background: var(--bg-2); }
   .guild-item.selected { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
   .guild-icon { width: 42px; height: 42px; border-radius: 12px; overflow: hidden; background: var(--accent); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 16px; flex-shrink: 0; }
@@ -151,8 +155,14 @@
   .guild-error { padding: 16px; border-radius: 12px; background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); font-size: 13px; line-height: 1.5; }
   .guild-error a { color: var(--danger); font-weight: 600; }
 
-  /* Turnstile */
-  .turnstile-wrap { margin: 16px 0; display: flex; justify-content: center; }
+  .turnstile-wrap { margin: 16px 0; display: flex; justify-content: center; min-height: 65px; }
+  .step { display: none; }
+  .step.active { display: block; animation: fadeIn .3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .draft-notice { display: none; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; background: #fffbeb; border: 1px solid #fde68a; color: var(--warning); font-size: 13px; margin-bottom: 18px; line-height: 1.4; }
+  .draft-notice.show { display: flex; }
+  .draft-notice button { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--warning); background: transparent; color: var(--warning); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
 </style>
 </head>
 <body>
@@ -166,13 +176,12 @@
     <a class="back-link" href="https://kirill12633.github.io/partnership.metro.new/auth/">← Аккаунт</a>
   </div>
 
-  <!-- Прогресс -->
   <div class="progress-bar" id="progressBar">
-    <div class="progress-step active" data-step="1">Сервер</div>
-    <div class="progress-step" data-step="2">Основное</div>
-    <div class="progress-step" data-step="3">Партнёры</div>
-    <div class="progress-step" data-step="4">Контакты</div>
-    <div class="progress-step" data-step="5">Отправка</div>
+    <div class="progress-step active" data-step="1">1. Сервер</div>
+    <div class="progress-step" data-step="2">2. Основное</div>
+    <div class="progress-step" data-step="3">3. Партнёры</div>
+    <div class="progress-step" data-step="4">4. Контакты</div>
+    <div class="progress-step" data-step="5">5. Юридика</div>
   </div>
 
   <div id="authRequired" class="auth-required">
@@ -184,22 +193,29 @@
 
   <div id="formWrap" style="display:none">
     <h1>Добавить сервер</h1>
-    <p class="sub">Выбери сервер из списка, где ты администратор. Мы проверим права через Discord.</p>
+    <p class="sub">Заполни по шагам. Прогресс сохраняется автоматически.</p>
+
+    <div class="draft-notice" id="draftNotice">
+      <span>📝 Найден сохранённый черновик. Продолжить?</span>
+      <button id="restoreDraft">Восстановить</button>
+      <button id="clearDraft" style="border:none; color:var(--dim);">Удалить</button>
+    </div>
 
     <div class="msg" id="msgBox"></div>
 
-    <!-- Шаг 1: Выбор сервера -->
-    <div class="card" id="step1Card">
-      <h2>Твой сервер</h2>
-      <p class="hint">Выбери Discord-сервер, где у тебя есть права администратора. Список приходит из Discord.</p>
-      <div id="guildList" class="guild-list">
-        <div class="guild-loading">Загрузка серверов...</div>
+    <!-- ШАГ 1: Выбор сервера -->
+    <div class="step active" data-step="1">
+      <div class="card">
+        <h2>Твой сервер</h2>
+        <p class="hint">Выбери Discord-сервер, где у тебя есть права администратора. Список приходит из Discord.</p>
+        <div id="guildList" class="guild-list">
+          <div class="guild-loading">Загрузка серверов...</div>
+        </div>
       </div>
     </div>
 
-    <!-- Шаг 2: Основное (скрыт до выбора) -->
-    <div id="mainForm" style="display:none">
-
+    <!-- ШАГ 2: Основное -->
+    <div class="step" data-step="2">
       <div class="card">
         <h2>Основное</h2>
         <p class="hint">Как сервер будет выглядеть в каталоге</p>
@@ -218,7 +234,7 @@
               <button type="button" class="photo-btn" id="photoBtn">Загрузить фото</button>
               <button type="button" class="photo-btn remove" id="photoRemove" style="display:none">Удалить</button>
               <input type="file" id="photoInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none">
-              <div class="hint-small">PNG, JPG, WEBP или GIF. До 5 МБ. Фото обрезается до квадрата автоматически.</div>
+              <div class="hint-small">PNG, JPG, WEBP или GIF. До 5 МБ. Обрезается до квадрата.</div>
             </div>
           </div>
         </div>
@@ -239,6 +255,7 @@
               <option>Музыка</option><option>Мемы</option><option>Аниме</option>
               <option>Общение</option><option>Другое</option>
             </select>
+            <div class="field-error" id="err-category"></div>
           </div>
           <div class="field">
             <label>Язык <span class="req">*</span></label>
@@ -268,22 +285,26 @@
           <div class="tags-input-wrap" id="tagsWrap">
             <input type="text" id="tagInput" placeholder="Введи тег и нажми Enter">
           </div>
-          <div class="hint-small">До 8 тегов. Без запрещённых слов.</div>
+          <div class="hint-small">До 8 тегов, без запрещённых слов.</div>
           <div class="field-error" id="err-tags"></div>
         </div>
       </div>
+    </div>
 
-      <!-- Шаг 3: Партнёры -->
+    <!-- ШАГ 3: Партнёры -->
+    <div class="step" data-step="3">
       <div class="card">
         <h2>Требования к партнёрам</h2>
         <p class="hint">С какими серверами ты готов сотрудничать</p>
-        <div class="field">
-          <label>Минимум участников</label>
-          <input type="number" id="f-min-members" placeholder="Например, 500 (пусто = без ограничений)" min="0">
-        </div>
-        <div class="field">
-          <label>Минимум онлайна</label>
-          <input type="number" id="f-min-online" placeholder="Например, 50 (пусто = без ограничений)" min="0">
+        <div class="row">
+          <div class="field">
+            <label>Минимум участников</label>
+            <input type="number" id="f-min-members" placeholder="Например, 500" min="0">
+          </div>
+          <div class="field">
+            <label>Минимум онлайна</label>
+            <input type="number" id="f-min-online" placeholder="Например, 50" min="0">
+          </div>
         </div>
         <div class="field">
           <label>Тематики для партнёрства</label>
@@ -307,46 +328,90 @@
           </div>
         </div>
         <div class="field">
-          <label>NSFW разрешён</label>
-          <div class="checkboxes">
-            <label class="checkbox-chip" id="nsfwChip"><input type="checkbox" id="f-nsfw">Да, сервер 18+</label>
-          </div>
-        </div>
-        <div class="field">
           <label>Дополнительные требования</label>
-          <textarea id="f-partner-notes" placeholder="Например: только серверы с активным чатом, без NSFW" maxlength="300" style="min-height:70px"></textarea>
+          <textarea id="f-partner-notes" placeholder="Например: только серверы с активным чатом" maxlength="300" style="min-height:70px"></textarea>
         </div>
       </div>
+    </div>
 
-      <!-- Шаг 4: Контакты -->
+    <!-- ШАГ 4: Контакты -->
+    <div class="step" data-step="4">
       <div class="card">
         <h2>Контакты для пиара</h2>
         <p class="hint">Как с тобой связаться. Минимум один контакт.</p>
         <div id="contactsList"></div>
         <button type="button" class="add-contact" id="addContactBtn">+ Добавить контакт</button>
+        <div class="field-error" id="err-contacts"></div>
       </div>
+    </div>
 
-      <!-- Юридика + капча -->
+    <!-- ШАГ 5: Юридика -->
+    <div class="step" data-step="5">
       <div class="card">
-        <h2>Подтверждение</h2>
+        <h2>Юридическая информация</h2>
+        <p class="hint">Обязательные подтверждения для размещения сервера</p>
+
         <div class="field">
-          <label class="checkbox-chip" style="padding:10px 14px; border-radius:10px; width:100%;">
-            <input type="checkbox" id="f-agree" style="display:inline-block; margin-right:8px;">
-            Я подтверждаю, что я администратор этого сервера, и согласен с <a href="https://kirill12633.github.io/partnership.metro.new/terms/" target="_blank" style="color:var(--accent);">пользовательским соглашением</a>, <a href="https://kirill12633.github.io/partnership.metro.new/privacy/" target="_blank" style="color:var(--accent);">политикой конфиденциальности</a> и <a href="https://kirill12633.github.io/partnership.metro.new/rules/" target="_blank" style="color:var(--accent);">правилами сообщества</a>.
+          <label class="checkbox-chip legal" id="chip-admin">
+            <input type="checkbox" id="f-admin">
+            <span>Я подтверждаю, что являюсь <strong>администратором</strong> этого сервера и имею право размещать его в каталоге.</span>
           </label>
-          <div class="field-error" id="err-agree"></div>
+          <div class="field-error" id="err-admin"></div>
         </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-age">
+            <input type="checkbox" id="f-age">
+            <span>Мне исполнилось <strong>13 лет</strong> (или 18+, если сервер содержит контент 18+).</span>
+          </label>
+          <div class="field-error" id="err-age"></div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-docs">
+            <input type="checkbox" id="f-docs">
+            <span>Я принимаю <a href="https://kirill12633.github.io/partnership.metro.new/terms/" target="_blank">пользовательское соглашение</a>, <a href="https://kirill12633.github.io/partnership.metro.new/privacy/" target="_blank">политику конфиденциальности</a> и <a href="https://kirill12633.github.io/partnership.metro.new/rules/" target="_blank">правила размещения</a>.</span>
+          </label>
+          <div class="field-error" id="err-docs"></div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-moderation">
+            <input type="checkbox" id="f-moderation">
+            <span>Я согласен, что администрация вправе <strong>отклонить заявку</strong> без объяснения причин, а также удалить сервер при нарушении правил.</span>
+          </label>
+          <div class="field-error" id="err-moderation"></div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-nsfw">
+            <input type="checkbox" id="f-nsfw">
+            <span>Сервер содержит контент <strong>18+ (NSFW)</strong>. Я подтверждаю, что это законно и соответствует правилам.</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-dmca">
+            <input type="checkbox" id="f-dmca">
+            <span>Я ознакомлен с <a href="https://kirill12633.github.io/partnership.metro.new/dmca/" target="_blank">политикой DMCA</a> и понимаю, что контент, нарушающий авторские права, будет удалён.</span>
+          </label>
+          <div class="field-error" id="err-dmca"></div>
+        </div>
+
         <div class="turnstile-wrap" id="turnstileContainer"></div>
         <div class="field-error" id="err-captcha"></div>
       </div>
+    </div>
 
-      <div class="actions">
-        <button class="btn-primary" id="submitBtn">
-          <span class="btn-text">Отправить на модерацию</span>
-          <div class="spinner"></div>
-        </button>
-        <button class="btn-secondary" id="cancelBtn">Отмена</button>
-      </div>
+    <div class="wizard-nav" id="wizardNav">
+      <button class="btn-secondary" id="prevBtn" style="display:none">← Назад</button>
+      <button class="btn-primary" id="nextBtn">
+        <span class="btn-text">Далее →</span>
+      </button>
+      <button class="btn-primary" id="submitBtn" style="display:none">
+        <span class="btn-text">Отправить на модерацию</span>
+        <div class="spinner"></div>
+      </button>
     </div>
   </div>
 
@@ -369,20 +434,25 @@
   const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
   const AUTH_URL = 'https://kirill12633.github.io/partnership.metro.new/auth/';
   const TURNSTILE_SITE_KEY = '0x4AAAAAACJJ-EXmOljL2_UU';
+  const DRAFT_KEY = 'metro_add_draft_v1';
 
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true }
   });
 
+  // ===== Элементы =====
   const authRequired = document.getElementById('authRequired');
   const formWrap = document.getElementById('formWrap');
   const successScreen = document.getElementById('successScreen');
   const msgBox = document.getElementById('msgBox');
-  const submitBtn = document.getElementById('submitBtn');
   const guildList = document.getElementById('guildList');
-  const mainForm = document.getElementById('mainForm');
   const progressSteps = document.querySelectorAll('.progress-step');
+  const steps = document.querySelectorAll('.step');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const draftNotice = document.getElementById('draftNotice');
 
   let currentUser = null;
   let discordToken = null;
@@ -392,23 +462,103 @@
   let contacts = [{ type: 'discord_user', value: '' }];
   let turnstileWidgetId = null;
   let turnstileToken = null;
+  let currentStep = 1;
 
+  const FORBIDDEN_TAGS = ['хуй', 'пизда', 'бля', 'еба', 'сука', 'нахуй', 'порно', 'секс', 'нарко'];
   const ADMIN_BITS = 0x8n | 0x20n;
 
   function hasAdminPermissions(perms) {
     if (!perms) return false;
-    const p = BigInt(perms);
-    return (p & ADMIN_BITS) !== 0n;
+    return (BigInt(perms) & ADMIN_BITS) !== 0n;
   }
 
+  // ===== Прогресс =====
   function setProgress(step) {
+    currentStep = step;
     progressSteps.forEach((el, i) => {
       el.classList.remove('active', 'done');
       if (i + 1 < step) el.classList.add('done');
       if (i + 1 === step) el.classList.add('active');
     });
+    steps.forEach(s => s.classList.toggle('active', +s.dataset.step === step));
+    prevBtn.style.display = step > 1 ? 'block' : 'none';
+    nextBtn.style.display = step < 5 ? 'flex' : 'none';
+    submitBtn.style.display = step === 5 ? 'flex' : 'none';
+    if (step === 5) initTurnstile();
+    saveDraft();
   }
 
+  // ===== Автосохранение черновика =====
+  function collectDraft() {
+    return {
+      step: currentStep,
+      selectedGuildId: selectedGuild?.id || null,
+      selectedGuildName: selectedGuild?.name || null,
+      name: document.getElementById('f-name')?.value || '',
+      desc: document.getElementById('f-desc')?.value || '',
+      category: document.getElementById('f-category')?.value || '',
+      language: document.getElementById('f-language')?.value || 'ru',
+      members: document.getElementById('f-members')?.value || '',
+      invite: document.getElementById('f-invite')?.value || '',
+      minMembers: document.getElementById('f-min-members')?.value || '',
+      minOnline: document.getElementById('f-min-online')?.value || '',
+      partnerNotes: document.getElementById('f-partner-notes')?.value || '',
+      avatarUrl: uploadedAvatarUrl,
+      tags,
+      contacts,
+      partnerCats: Array.from(document.querySelectorAll('#partnerCats input:checked')).map(c => c.value),
+      partnerConditions: Array.from(document.querySelectorAll('#partnerConditions input:checked')).map(c => c.value),
+      admin: document.getElementById('f-admin')?.checked || false,
+      age: document.getElementById('f-age')?.checked || false,
+      docs: document.getElementById('f-docs')?.checked || false,
+      moderation: document.getElementById('f-moderation')?.checked || false,
+      nsfw: document.getElementById('f-nsfw')?.checked || false,
+      dmca: document.getElementById('f-dmca')?.checked || false,
+      savedAt: Date.now()
+    };
+  }
+
+  function saveDraft() {
+    if (!currentUser) return;
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); } catch {}
+  }
+
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      // Черновик старше 24 часов — игнорируем
+      if (Date.now() - d.savedAt > 24*60*60*1000) { localStorage.removeItem(DRAFT_KEY); return null; }
+      return d;
+    } catch { return null; }
+  }
+
+  function clearDraft() { localStorage.removeItem(DRAFT_KEY); }
+
+  function applyDraft(d) {
+    if (d.name) document.getElementById('f-name').value = d.name;
+    if (d.desc) { document.getElementById('f-desc').value = d.desc; document.getElementById('descCount').textContent = d.desc.length; }
+    if (d.category) document.getElementById('f-category').value = d.category;
+    if (d.language) document.getElementById('f-language').value = d.language;
+    if (d.members) document.getElementById('f-members').value = d.members;
+    if (d.invite) document.getElementById('f-invite').value = d.invite;
+    if (d.minMembers) document.getElementById('f-min-members').value = d.minMembers;
+    if (d.minOnline) document.getElementById('f-min-online').value = d.minOnline;
+    if (d.partnerNotes) document.getElementById('f-partner-notes').value = d.partnerNotes;
+    if (d.avatarUrl) { uploadedAvatarUrl = d.avatarUrl; document.getElementById('photoPreview').innerHTML = `<img src="${d.avatarUrl}" alt="">`; document.getElementById('photoRemove').style.display = 'inline-block'; }
+    if (d.tags) { tags = d.tags; renderTags(); }
+    if (d.contacts) { contacts = d.contacts; renderContacts(); }
+    if (d.partnerCats) d.partnerCats.forEach(v => { const cb = document.querySelector(`#partnerCats input[value="${v}"]`); if (cb) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); } });
+    if (d.partnerConditions) d.partnerConditions.forEach(v => { const cb = document.querySelector(`#partnerConditions input[value="${v}"]`); if (cb) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); } });
+    ['admin','age','docs','moderation','nsfw','dmca'].forEach(k => {
+      const cb = document.getElementById('f-' + k);
+      if (cb && d[k]) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); }
+    });
+    setProgress(d.step || 2);
+  }
+
+  // ===== Вход =====
   async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
@@ -422,41 +572,48 @@
     formWrap.style.display = 'block';
 
     if (!discordToken) {
-      guildList.innerHTML = `<div class="guild-error">Discord-токен истёк. <a href="${AUTH_URL}">Войди заново</a>, чтобы мы могли проверить твои серверы.</div>`;
+      guildList.innerHTML = `<div class="guild-error">Discord-токен истёк. <a href="${AUTH_URL}">Войди заново</a>.</div>`;
       return;
     }
+
+    // Есть ли черновик?
+    const draft = loadDraft();
+    if (draft) draftNotice.classList.add('show');
 
     await loadGuilds();
   }
 
+  document.getElementById('restoreDraft').addEventListener('click', () => {
+    const d = loadDraft();
+    if (d) applyDraft(d);
+    draftNotice.classList.remove('show');
+  });
+  document.getElementById('clearDraft').addEventListener('click', () => {
+    clearDraft(); draftNotice.classList.remove('show');
+  });
+
+  // ===== Гильдии =====
   async function loadGuilds() {
     guildList.innerHTML = '<div class="guild-loading">Загрузка серверов из Discord...</div>';
-    mainForm.style.display = 'none';
-    setProgress(1);
-
     try {
       const res = await fetch('https://discord.com/api/v10/users/@me/guilds', {
         headers: { Authorization: `Bearer ${discordToken}` }
       });
       if (res.status === 401) throw new Error('TOKEN_EXPIRED');
-      if (!res.ok) throw new Error('Не удалось получить список серверов (' + res.status + ')');
-
+      if (!res.ok) throw new Error('Ошибка Discord (' + res.status + ')');
       const guilds = await res.json();
       const adminGuilds = guilds.filter(g => g.owner === true || hasAdminPermissions(g.permissions));
-
       if (!adminGuilds.length) {
-        guildList.innerHTML = `<div class="guild-error">У тебя нет серверов, где ты администратор.</div>`;
+        guildList.innerHTML = '<div class="guild-error">У тебя нет серверов, где ты администратор.</div>';
         return;
       }
-
       guildList.innerHTML = '';
       adminGuilds.forEach(g => {
         const item = document.createElement('div');
         item.className = 'guild-item';
         item.dataset.id = g.id;
-        item.dataset.name = g.name;
         const iconHtml = g.icon
-          ? `<img src="https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128" alt="">`
+          ? `<img src="https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128" alt="" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.style.display='none'; this.parentElement.textContent='${escapeHtml(g.name[0].toUpperCase())}'">`
           : escapeHtml(g.name[0].toUpperCase());
         const badge = g.owner ? 'Владелец' : 'Админ';
         item.innerHTML = `
@@ -472,7 +629,7 @@
       });
     } catch (err) {
       if (err.message === 'TOKEN_EXPIRED') {
-        guildList.innerHTML = `<div class="guild-error">Discord-токен истёк. <a href="${AUTH_URL}">Войди заново</a>.</div>`;
+        guildList.innerHTML = `<div class="guild-error">Токен истёк. <a href="${AUTH_URL}">Войди заново</a>.</div>`;
       } else {
         guildList.innerHTML = `<div class="guild-error">${escapeHtml(err.message)}</div>`;
       }
@@ -484,24 +641,117 @@
     el.classList.add('selected');
     selectedGuild = guild;
     document.getElementById('f-name').value = guild.name;
-    mainForm.style.display = 'block';
-    renderContacts();
+    if (guild.icon) {
+      uploadedAvatarUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=256`;
+      document.getElementById('photoPreview').innerHTML = `<img src="${uploadedAvatarUrl}" alt="" referrerpolicy="no-referrer">`;
+      document.getElementById('photoRemove').style.display = 'inline-block';
+    }
     setProgress(2);
-    setTimeout(() => mainForm.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-    initTurnstile();
   }
 
-  // ===== Turnstile =====
-  function initTurnstile() {
-    if (turnstileWidgetId || !window.turnstile) return;
-    turnstileWidgetId = turnstile.render('#turnstileContainer', {
-      sitekey: TURNSTILE_SITE_KEY,
-      callback: (token) => { turnstileToken = token; },
-      'error-callback': (code) => { console.error('Turnstile error:', code); }
-    });
+  // ===== Навигация =====
+  nextBtn.addEventListener('click', () => {
+    if (!validateStep(currentStep)) return;
+    if (currentStep < 5) setProgress(currentStep + 1);
+  });
+  prevBtn.addEventListener('click', () => {
+    if (currentStep > 1) setProgress(currentStep - 1);
+  });
+
+  // ===== Валидация шагов =====
+  function validateStep(step) {
+    msgBox.classList.remove('show');
+    if (step === 1) {
+      if (!selectedGuild) { showMsg('Выбери сервер из списка', 'error'); return false; }
+      return true;
+    }
+    if (step === 2) {
+      let ok = true;
+      const nameErr = validateName(document.getElementById('f-name').value);
+      if (nameErr) { showFieldError('name', nameErr); ok = false; } else showFieldError('name', '');
+      const descErr = validateDesc(document.getElementById('f-desc').value);
+      if (descErr) { showFieldError('desc', descErr); ok = false; } else showFieldError('desc', '');
+      const cat = document.getElementById('f-category').value;
+      if (!cat) { showFieldError('category', 'Выберите категорию'); ok = false; } else showFieldError('category', '');
+      const memErr = validateMembers(document.getElementById('f-members').value);
+      if (memErr) { showFieldError('members', memErr); ok = false; } else showFieldError('members', '');
+      const inviteErr = validateInviteFormat(document.getElementById('f-invite').value);
+      if (inviteErr) { showFieldError('invite', inviteErr); ok = false; } else showFieldError('invite', '');
+      return ok;
+    }
+    if (step === 3) return true;
+    if (step === 4) {
+      const valid = contacts.filter(c => c.value.trim());
+      if (!valid.length) { document.getElementById('err-contacts').textContent = 'Добавьте хотя бы один контакт'; document.getElementById('err-contacts').classList.add('show'); return false; }
+      document.getElementById('err-contacts').classList.remove('show');
+      return true;
+    }
+    if (step === 5) {
+      let ok = true;
+      const checks = [
+        ['admin', 'f-admin', 'Подтвердите, что вы админ'],
+        ['age', 'f-age', 'Подтвердите возраст'],
+        ['docs', 'f-docs', 'Примите документы'],
+        ['moderation', 'f-moderation', 'Согласитесь с модерацией'],
+        ['dmca', 'f-dmca', 'Ознакомьтесь с DMCA']
+      ];
+      checks.forEach(([key, id, msg]) => {
+        const cb = document.getElementById(id);
+        if (!cb.checked) { showFieldError(key, msg); ok = false; } else showFieldError(key, '');
+      });
+      if (!turnstileToken) {
+        document.getElementById('err-captcha').textContent = 'Пройдите проверку';
+        document.getElementById('err-captcha').classList.add('show');
+        ok = false;
+      } else document.getElementById('err-captcha').classList.remove('show');
+      return ok;
+    }
+    return true;
   }
 
-  // ===== Фото (с кропом через CSS object-fit) =====
+  // ===== Валидация полей =====
+  function validateName(v) {
+    if (!v || v.trim().length < 2) return 'Название минимум 2 символа';
+    if (v.length > 60) return 'Название максимум 60 символов';
+    return null;
+  }
+  function validateDesc(v) {
+    if (!v || v.trim().length < 20) return 'Описание минимум 20 символов';
+    if (v.length > 500) return 'Описание максимум 500 символов';
+    return null;
+  }
+  function validateMembers(v) {
+    const n = parseInt(v);
+    if (!v || isNaN(n) || n < 0) return 'Введите число участников';
+    return null;
+  }
+  function validateInviteFormat(v) {
+    if (!v) return 'Введите ссылку';
+    if (!/discord\.(gg|com\/invite)\/[a-zA-Z0-9-]+/.test(v)) return 'Неверный формат ссылки';
+    return null;
+  }
+
+  // Асинхронная проверка инвайта (на шаге 5, перед отправкой)
+  async function validateInviteLive(v, guildId) {
+    const match = v.match(/discord\.(?:gg|com\/invite)\/([a-zA-Z0-9-]+)/);
+    if (!match) return 'Неверный формат ссылки';
+    try {
+      const res = await fetch(`https://discord.com/api/v10/invites/${match[1]}?with_counts=true`);
+      if (!res.ok) return 'Ссылка недействительна или истекла';
+      const data = await res.json();
+      if (data.guild && data.guild.id !== guildId) return 'Ссылка ведёт на другой сервер';
+      return null;
+    } catch { return 'Не удалось проверить ссылку'; }
+  }
+
+  function showFieldError(id, msg) {
+    const el = document.getElementById('err-' + id);
+    const input = document.getElementById('f-' + id);
+    if (el) { el.textContent = msg || ''; el.classList.toggle('show', !!msg); }
+    if (input) input.classList.toggle('error', !!msg);
+  }
+
+  // ===== Фото =====
   const photoBtn = document.getElementById('photoBtn');
   const photoInput = document.getElementById('photoInput');
   const photoPreview = document.getElementById('photoPreview');
@@ -514,25 +764,21 @@
     const file = e.target.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) return showMsg('Файл больше 5 МБ', 'error');
-
     photoPreview.innerHTML = '⏳';
     photoBtn.disabled = true;
-
     try {
       const path = `${currentUser.id}/${Date.now()}-${file.name.replace(/[^a-z0-9.]/gi, '_')}`;
       const { error: upErr } = await supabase.storage.from('server-avatars').upload(path, file);
       if (upErr) throw upErr;
       const { data: urlData } = supabase.storage.from('server-avatars').getPublicUrl(path);
       uploadedAvatarUrl = urlData.publicUrl;
-      // CSS object-fit: cover обрезает до квадрата визуально
       photoPreview.innerHTML = `<img src="${uploadedAvatarUrl}" alt="">`;
       photoRemove.style.display = 'inline-block';
+      saveDraft();
     } catch (err) {
       photoPreview.innerHTML = '+';
       showMsg('Ошибка загрузки: ' + err.message, 'error');
-    } finally {
-      photoBtn.disabled = false;
-    }
+    } finally { photoBtn.disabled = false; }
   });
 
   photoRemove.addEventListener('click', () => {
@@ -540,54 +786,14 @@
     photoPreview.innerHTML = '+';
     photoRemove.style.display = 'none';
     photoInput.value = '';
+    saveDraft();
   });
 
-  // ===== Валидация =====
-  const FORBIDDEN_TAGS = ['хуй', 'пизда', 'бля', 'еба', 'сука', 'нахуй'];
-
-  function validateName(v) {
-    if (!v || v.trim().length < 2) return 'Название минимум 2 символа';
-    if (v.length > 60) return 'Название максимум 60 символов';
-    return null;
-  }
-
-  function validateDesc(v) {
-    if (!v || v.trim().length < 20) return 'Описание минимум 20 символов';
-    if (v.length > 500) return 'Описание максимум 500 символов';
-    return null;
-  }
-
-  function validateMembers(v) {
-    const n = parseInt(v);
-    if (!v || isNaN(n) || n < 0) return 'Введите число участников';
-    return null;
-  }
-
-  async function validateInvite(v, guildId) {
-    if (!v) return 'Введите ссылку-приглашение';
-    const match = v.match(/discord\.(?:gg|com\/invite)\/([a-zA-Z0-9-]+)/);
-    if (!match) return 'Неверный формат ссылки';
-    const code = match[1];
-
-    try {
-      const res = await fetch(`https://discord.com/api/v10/invites/${code}?with_counts=true`);
-      if (!res.ok) return 'Ссылка недействительна или истекла';
-      const data = await res.json();
-      if (data.guild && data.guild.id !== guildId) {
-        return 'Ссылка ведёт на другой сервер';
-      }
-      return null;
-    } catch {
-      return 'Не удалось проверить ссылку';
-    }
-  }
-
-  function showFieldError(id, msg) {
-    const el = document.getElementById('err-' + id);
-    const input = document.getElementById('f-' + id);
-    if (el) { el.textContent = msg || ''; el.classList.toggle('show', !!msg); }
-    if (input) input.classList.toggle('error', !!msg);
-  }
+  // ===== Описание =====
+  document.getElementById('f-desc').addEventListener('input', (e) => {
+    document.getElementById('descCount').textContent = e.target.value.length;
+    saveDraft();
+  });
 
   // ===== Теги =====
   const tagInput = document.getElementById('tagInput');
@@ -600,10 +806,10 @@
       if (!val) return;
       if (tags.length >= 8) return showMsg('Максимум 8 тегов', 'error');
       if (FORBIDDEN_TAGS.some(w => val.includes(w))) return showMsg('Тег содержит запрещённое слово', 'error');
-      if (!tags.includes(val)) { tags.push(val); renderTags(); }
+      if (!tags.includes(val)) { tags.push(val); renderTags(); saveDraft(); }
       tagInput.value = '';
     }
-    if (e.key === 'Backspace' && !tagInput.value && tags.length) { tags.pop(); renderTags(); }
+    if (e.key === 'Backspace' && !tagInput.value && tags.length) { tags.pop(); renderTags(); saveDraft(); }
   });
 
   function renderTags() {
@@ -615,17 +821,18 @@
       tagsWrap.insertBefore(pill, tagInput);
     });
     tagsWrap.querySelectorAll('.tag-pill button').forEach(btn => {
-      btn.addEventListener('click', () => { tags.splice(+btn.dataset.i, 1); renderTags(); });
+      btn.addEventListener('click', () => { tags.splice(+btn.dataset.i, 1); renderTags(); saveDraft(); });
     });
   }
 
   // ===== Чекбоксы =====
   document.querySelectorAll('.checkbox-chip').forEach(chip => {
-    const cb = chip.querySelector('input');
+    const cb = chip.querySelector('input[type="checkbox"]');
     if (!cb) return;
     chip.addEventListener('click', (e) => {
-      if (e.target !== cb) cb.checked = !cb.checked;
+      if (e.target !== cb && e.target.tagName !== 'A') cb.checked = !cb.checked;
       chip.classList.toggle('checked', cb.checked);
+      saveDraft();
     });
   });
 
@@ -638,12 +845,12 @@
       const row = document.createElement('div');
       row.className = 'contact-row';
       row.innerHTML = `
-        <select data-i="${i}" data-field="type">
+        <select data-i="${i}">
           <option value="discord_user" ${c.type==='discord_user'?'selected':''}>Discord (юзер)</option>
           <option value="discord_server" ${c.type==='discord_server'?'selected':''}>Discord (сервер)</option>
           <option value="email" ${c.type==='email'?'selected':''}>Email</option>
         </select>
-        <input type="text" data-i="${i}" data-field="value" placeholder="${placeholderFor(c.type)}" value="${escapeHtml(c.value)}">
+        <input type="text" data-i="${i}" placeholder="${placeholderFor(c.type)}" value="${escapeHtml(c.value)}">
         ${contacts.length > 1 ? `<button type="button" class="remove-contact" data-i="${i}">×</button>` : ''}
       `;
       contactsList.appendChild(row);
@@ -653,14 +860,14 @@
         const i = +e.target.dataset.i;
         contacts[i].type = e.target.value;
         contacts[i].value = '';
-        renderContacts();
+        renderContacts(); saveDraft();
       });
     });
     contactsList.querySelectorAll('input').forEach(inp => {
-      inp.addEventListener('input', (e) => { contacts[+e.target.dataset.i].value = e.target.value; });
+      inp.addEventListener('input', (e) => { contacts[+e.target.dataset.i].value = e.target.value; saveDraft(); });
     });
     contactsList.querySelectorAll('.remove-contact').forEach(btn => {
-      btn.addEventListener('click', (e) => { contacts.splice(+e.target.dataset.i, 1); renderContacts(); });
+      btn.addEventListener('click', (e) => { contacts.splice(+e.target.dataset.i, 1); renderContacts(); saveDraft(); });
     });
   }
 
@@ -673,8 +880,17 @@
   document.getElementById('addContactBtn').addEventListener('click', () => {
     if (contacts.length >= 5) return;
     contacts.push({ type: 'discord_user', value: '' });
-    renderContacts();
+    renderContacts(); saveDraft();
   });
+
+  // ===== Turnstile =====
+  function initTurnstile() {
+    if (turnstileWidgetId || !window.turnstile) return;
+    turnstileWidgetId = turnstile.render('#turnstileContainer', {
+      sitekey: TURNSTILE_SITE_KEY,
+      callback: (token) => { turnstileToken = token; }
+    });
+  }
 
   // ===== Сообщения =====
   function showMsg(text, type) {
@@ -685,62 +901,72 @@
 
   // ===== Отправка =====
   submitBtn.addEventListener('click', async () => {
-    msgBox.classList.remove('show');
+    if (!validateStep(5)) return;
+    if (!selectedGuild) return showMsg('Выбери сервер', 'error');
 
-    if (!selectedGuild) return showMsg('Выбери сервер из списка', 'error');
-
-    const name = document.getElementById('f-name').value.trim();
-    const desc = document.getElementById('f-desc').value.trim();
-    const category = document.getElementById('f-category').value;
-    const language = document.getElementById('f-language').value;
-    const members = parseInt(document.getElementById('f-members').value) || 0;
     const invite = document.getElementById('f-invite').value.trim();
-    const minMembers = document.getElementById('f-min-members').value;
-    const minOnline = document.getElementById('f-min-online').value;
-    const partnerNotes = document.getElementById('f-partner-notes').value.trim();
-    const nsfw = document.getElementById('f-nsfw').checked;
-    const agree = document.getElementById('f-agree').checked;
 
-    let hasError = false;
-    const nameErr = validateName(name); if (nameErr) { showFieldError('name', nameErr); hasError = true; } else showFieldError('name', '');
-    const descErr = validateDesc(desc); if (descErr) { showFieldError('desc', descErr); hasError = true; } else showFieldError('desc', '');
-    const membersErr = validateMembers(members); if (membersErr) { showFieldError('members', membersErr); hasError = true; } else showFieldError('members', '');
-    if (!category) { showMsg('Выберите категорию', 'error'); hasError = true; }
+    // Проверка инвайта на живой
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    const inviteErr = await validateInviteLive(invite, selectedGuild.id);
+    if (inviteErr) {
+      showFieldError('invite', inviteErr);
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      return;
+    }
+    showFieldError('invite', '');
 
-    if (!agree) { showFieldError('agree', 'Подтвердите согласие'); hasError = true; } else showFieldError('agree', '');
+    // Проверка на дубликат
+    const { data: existing } = await supabase
+      .from('servers')
+      .select('id')
+      .eq('invite_link', invite)
+      .maybeSingle();
+    if (existing) {
+      showMsg('Сервер с такой ссылкой уже есть в каталоге', 'error');
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      return;
+    }
 
-    if (!turnstileToken) { document.getElementById('err-captcha').textContent = 'Пройдите проверку'; document.getElementById('err-captcha').classList.add('show'); hasError = true; }
-    else document.getElementById('err-captcha').classList.remove('show');
+    // Проверка капчи через Edge Function
+    try {
+      const { data: verify, error: verifyErr } = await supabase.functions.invoke('verify-turnstile', {
+        body: { token: turnstileToken }
+      });
+      if (verifyErr || !verify?.success) throw new Error('captcha_failed');
+    } catch {
+      showMsg('Капча не пройдена. Обновите страницу и попробуйте снова.', 'error');
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      return;
+    }
 
-    if (hasError) return;
-
-    // Проверка инвайта (асинхронная)
-    const inviteErr = await validateInvite(invite, selectedGuild.id);
-    if (inviteErr) { showFieldError('invite', inviteErr); return; } else showFieldError('invite', '');
-
+    // Сбор данных
+    const partnerCats = Array.from(document.querySelectorAll('#partnerCats input:checked')).map(c => c.value);
+    const partnerConditions = Array.from(document.querySelectorAll('#partnerConditions input:checked')).map(c => c.value);
     const validContacts = contacts.filter(c => c.value.trim());
-    if (!validContacts.length) return showMsg('Добавьте хотя бы один контакт', 'error');
-
-    const partnerCategories = Array.from(document.querySelectorAll('#partnerCats input:checked')).map(cb => cb.value);
-    const partnerConditions = Array.from(document.querySelectorAll('#partnerConditions input:checked')).map(cb => cb.value);
 
     const serverData = {
-      name, description: desc, category, language, members,
+      name: document.getElementById('f-name').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      category: document.getElementById('f-category').value,
+      language: document.getElementById('f-language').value,
+      members: parseInt(document.getElementById('f-members').value) || 0,
       invite_link: invite,
       avatar_url: uploadedAvatarUrl,
-      partner_min_members: minMembers ? parseInt(minMembers) : null,
-      partner_min_online: minOnline ? parseInt(minOnline) : null,
-      partner_categories: partnerCategories.length ? partnerCategories : null,
+      partner_min_members: document.getElementById('f-min-members').value ? parseInt(document.getElementById('f-min-members').value) : null,
+      partner_min_online: document.getElementById('f-min-online').value ? parseInt(document.getElementById('f-min-online').value) : null,
+      partner_categories: partnerCats.length ? partnerCats : null,
       partner_conditions: partnerConditions.length ? partnerConditions : null,
-      partner_notes: partnerNotes || null,
-      is_nsfw: nsfw,
+      partner_notes: document.getElementById('f-partner-notes').value.trim() || null,
+      is_nsfw: document.getElementById('f-nsfw').checked,
       owner_id: currentUser.id,
       status: 'active',
       moderation_status: 'pending'
     };
-
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
 
     try {
       const { data: server, error: serverErr } = await supabase.from('servers').insert(serverData).select('id').single();
@@ -763,11 +989,13 @@
       const { error: contactsErr } = await supabase.from('partnership_contacts').insert(contactsData);
       if (contactsErr) throw contactsErr;
 
-      // Успех
+      clearDraft();
+
       document.getElementById('successDetails').innerHTML = `
-        <div><span>Сервер</span><span><strong>${escapeHtml(name)}</strong></span></div>
-        <div><span>Категория</span><span>${escapeHtml(category)}</span></div>
-        <div><span>Участников</span><span>${members.toLocaleString('ru-RU')}</span></div>
+        <div><span>Сервер</span><span><strong>${escapeHtml(serverData.name)}</strong></span></div>
+        <div><span>Категория</span><span>${escapeHtml(serverData.category)}</span></div>
+        <div><span>Участников</span><span>${serverData.members.toLocaleString('ru-RU')}</span></div>
+        <div><span>NSFW</span><span>${serverData.is_nsfw ? 'Да' : 'Нет'}</span></div>
         <div><span>Статус</span><span style="color:var(--success)">На модерации</span></div>
       `;
       formWrap.style.display = 'none';
@@ -780,10 +1008,6 @@
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
-  });
-
-  document.getElementById('cancelBtn').addEventListener('click', () => {
-    if (confirm('Отменить заполнение?')) window.location.href = 'https://kirill12633.github.io/partnership.metro.new/';
   });
 
   function escapeHtml(s) {
