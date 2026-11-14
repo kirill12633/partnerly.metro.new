@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мои серверы — Metro New Partnership</title>
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --danger: #dc2626; --success: #16a34a; --warning: #d97706;
+    --shadow-sm: 0 1px 2px rgba(15,15,26,.04);
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 85% 10%, rgba(99,102,241,.06), transparent 40%); }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-sm { padding: 9px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .2s; }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-sm.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+  h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .sub { font-size: 14px; color: var(--dim); margin-bottom: 28px; line-height: 1.5; }
+
+  /* Профиль-шапка */
+  .profile-header { display: flex; align-items: center; gap: 16px; padding: 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-sm); margin-bottom: 24px; flex-wrap: wrap; }
+  .profile-avatar { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; background: var(--accent-soft); flex-shrink: 0; }
+  .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .profile-info { flex: 1; min-width: 180px; }
+  .profile-name { font-size: 17px; font-weight: 700; }
+  .profile-meta { font-size: 13px; color: var(--dim); margin-top: 2px; }
+
+  /* Статистика */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm); }
+  .stat-num { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
+  .stat-label { font-size: 12px; color: var(--dim); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* Табы */
+  .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 5px; }
+  .tab { padding: 9px 16px; border-radius: 9px; border: none; background: transparent; color: var(--dim); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--accent); color: #fff; }
+
+  /* Список серверов */
+  .server-list { display: flex; flex-direction: column; gap: 12px; }
+  .server-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow-sm); transition: all .2s; }
+  .server-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+  .server-main { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .server-avatar { width: 64px; height: 64px; border-radius: 14px; overflow: hidden; background: var(--accent-soft); display: grid; place-items: center; font-weight: 700; color: var(--accent); font-size: 24px; flex-shrink: 0; }
+  .server-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .server-body { flex: 1; min-width: 200px; }
+  .server-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .server-name { font-size: 17px; font-weight: 700; }
+  .server-desc { font-size: 13px; color: var(--dim); line-height: 1.5; margin-bottom: 10px; }
+  .server-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--dim); }
+  .server-meta span { display: inline-flex; align-items: center; gap: 4px; }
+
+  /* Статус-бейджи */
+  .badge { font-size: 11px; padding: 4px 10px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .badge.pending { background: #fffbeb; color: var(--warning); border: 1px solid #fde68a; }
+  .badge.approved { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+  .badge.rejected { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+  .badge.paused { background: var(--bg); color: var(--dim); border: 1px solid var(--border); }
+  .badge.nsfw { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+
+  /* Действия */
+  .server-actions { display: flex; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .action-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+  .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .action-btn.danger { color: var(--danger); border-color: #fecaca; }
+  .action-btn.danger:hover { background: #fef2f2; border-color: var(--danger); }
+  .action-btn.success { color: var(--success); border-color: #bbf7d0; }
+  .action-btn.success:hover { background: #f0fdf4; border-color: var(--success); }
+
+  /* Статистика сервера */
+  .server-stats { display: flex; gap: 20px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+  .server-stat { font-size: 12px; color: var(--dim); }
+  .server-stat strong { color: var(--text); font-weight: 700; }
+
+  /* Причина отклонения */
+  .rejection-note { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--danger); margin-top: 10px; line-height: 1.5; }
+  .rejection-note strong { font-weight: 700; }
+
+  /* Пустое состояние */
+  .empty-state { text-align: center; padding: 60px 24px; background: var(--bg-2); border: 1px dashed var(--border); border-radius: 16px; }
+  .empty-state .icon { font-size: 56px; margin-bottom: 16px; }
+  .empty-state h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; color: var(--dim); margin-bottom: 24px; line-height: 1.5; max-width: 360px; margin-left: auto; margin-right: auto; }
+  .empty-state a { display: inline-block; padding: 13px 26px; border-radius: 11px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; transition: all .2s; }
+  .empty-state a:hover { background: var(--accent-2); transform: translateY(-2px); }
+
+  /* Экран входа */
+  .auth-required { display: none; text-align: center; padding: 60px 24px; }
+  .auth-required.show { display: block; }
+  .auth-required .icon { font-size: 48px; margin-bottom: 16px; }
+  .auth-required h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .auth-required p { font-size: 14px; color: var(--dim); margin-bottom: 24px; line-height: 1.5; }
+  .auth-required a { display: inline-block; padding: 14px 28px; border-radius: 12px; background: #5865f2; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
+
+  /* Модалка редактирования */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(15,15,26,.5); display: none; z-index: 100; padding: 20px; overflow-y: auto; }
+  .modal-overlay.show { display: block; }
+  .modal { background: var(--bg-2); border-radius: 18px; max-width: 560px; margin: 40px auto; padding: 28px; box-shadow: var(--shadow-lg); }
+  .modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .modal .hint { font-size: 13px; color: var(--dim); margin-bottom: 20px; line-height: 1.5; }
+  .field { margin-bottom: 16px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  input[type="text"], input[type="number"], input[type="url"], textarea, select { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: all .2s; }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99,102,241,.08); }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+  .btn-modal { padding: 11px 22px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+  .btn-modal:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-modal.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-modal.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+  .btn-modal:disabled { opacity: .6; cursor: not-allowed; }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: #fff; padding: 12px 22px; border-radius: 10px; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); transition: transform .3s; z-index: 200; max-width: 90%; text-align: center; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--danger); }
+  .toast.success { background: var(--success); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="logo" href="https://kirill12633.github.io/partnership.metro.new/">
+      <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      Metro New Partnership
+    </a>
+    <div class="header-actions">
+      <a class="btn-sm" href="https://kirill12633.github.io/partnership.metro.new/">← Каталог</a>
+      <a class="btn-sm primary" href="https://kirill12633.github.io/partnership.metro.new/add/">+ Добавить сервер</a>
+    </div>
+  </div>
+
+  <div id="authRequired" class="auth-required">
+    <div class="icon">🔒</div>
+    <h2>Нужен вход</h2>
+    <p>Войди через Discord, чтобы управлять своими серверами.</p>
+    <a href="https://kirill12633.github.io/partnership.metro.new/auth/">Войти через Discord</a>
+  </div>
+
+  <div id="dashboardWrap" style="display:none">
+    <h1>Мои серверы</h1>
+    <p class="sub">Управляй своими серверами, следи за статусом модерации и статистикой.</p>
+
+    <!-- Профиль -->
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar"></div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-meta" id="profileMeta">—</div>
+      </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Всего серверов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statApproved" style="color:var(--success)">—</div>
+        <div class="stat-label">Одобрено</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statPending" style="color:var(--warning)">—</div>
+        <div class="stat-label">На модерации</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statViews">—</div>
+        <div class="stat-label">Просмотров</div>
+      </div>
+    </div>
+
+    <!-- Табы -->
+    <div class="tabs">
+      <button class="tab active" data-tab="active">Активные</button>
+      <button class="tab" data-tab="pending">На модерации</button>
+      <button class="tab" data-tab="rejected">Отклонённые</button>
+      <button class="tab" data-tab="trash">Корзина</button>
+    </div>
+
+    <div id="serverList" class="server-list"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+      <div class="icon">📭</div>
+      <h2>Здесь пока пусто</h2>
+      <p id="emptyText">У тебя ещё нет серверов в этой категории.</p>
+      <a href="https://kirill12633.github.io/partnership.metro.new/add/">Добавить сервер</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Модалка редактирования -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Редактировать сервер</h3>
+    <p class="hint">После изменений сервер снова уйдёт на модерацию.</p>
+    <div class="field">
+      <label>Название</label>
+      <input type="text" id="edit-name" maxlength="60">
+    </div>
+    <div class="field">
+      <label>Описание</label>
+      <textarea id="edit-desc" maxlength="500"></textarea>
+    </div>
+    <div class="field">
+      <label>Категория</label>
+      <select id="edit-category">
+        <option>Игры</option><option>Разработка</option><option>Творчество</option>
+        <option>Музыка</option><option>Мемы</option><option>Аниме</option>
+        <option>Общение</option><option>Другое</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Участников</label>
+      <input type="number" id="edit-members" min="0">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal" id="cancelEdit">Отмена</button>
+      <button class="btn-modal primary" id="saveEdit">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  const SUPABASE_URL = 'https://bwuozoqhdklbucjqmydj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
+
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true }
+  });
+
+  const authRequired = document.getElementById('authRequired');
+  const dashboardWrap = document.getElementById('dashboardWrap');
+  const serverList = document.getElementById('serverList');
+  const emptyState = document.getElementById('emptyState');
+  const emptyText = document.getElementById('emptyText');
+  const toast = document.getElementById('toast');
+
+  let currentUser = null;
+  let allServers = [];
+  let currentTab = 'active';
+  let editingServer = null;
+
+  // ===== Тост =====
+  function showToast(msg, type = '') {
+    toast.textContent = msg;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ===== Статус =====
+  function statusBadge(s) {
+    if (s.moderation_status === 'pending') return '<span class="badge pending">⏳ На модерации</span>';
+    if (s.moderation_status === 'rejected') return '<span class="badge rejected">✕ Отклонён</span>';
+    if (s.moderation_status === 'approved' && s.status === 'paused') return '<span class="badge paused">⏸ На паузе</span>';
+    if (s.moderation_status === 'approved') return '<span class="badge approved">✓ Опубликован</span>';
+    return '<span class="badge paused">—</span>';
+  }
+
+  // ===== Загрузка =====
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) {
+      authRequired.classList.add('show');
+      dashboardWrap.style.display = 'none';
+      return;
+    }
+    currentUser = session.user;
+    authRequired.classList.remove('show');
+    dashboardWrap.style.display = 'block';
+    await loadProfile();
+    await loadServers();
+  }
+
+  async function loadProfile() {
+    const { data: profile } = await supabase
+      .from('profiles_public')
+      .select('username, avatar_url, discord_id')
+      .eq('id', currentUser.id)
+      .single();
+
+    const name = profile?.username || currentUser.user_metadata?.full_name || 'Пользователь';
+    const avatar = profile?.avatar_url || currentUser.user_metadata?.avatar_url || 'https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png';
+
+    document.getElementById('profileAvatar').innerHTML = `<img src="${avatar}" alt="">`;
+    document.getElementById('profileName').textContent = name;
+    document.getElementById('profileMeta').textContent = 'Discord ID: ' + (profile?.discord_id || currentUser.id.slice(0, 8));
+  }
+
+  async function loadServers() {
+    serverList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--dim)">Загрузка...</div>';
+    // Свои серверы — включая pending, rejected, и даже в корзине (RLS разрешает owner)
+    const { data, error } = await supabase
+      .from('servers')
+      .select('*')
+      .eq('owner_id', currentUser.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      serverList.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><h2>Ошибка</h2><p>${error.message}</p></div>`;
+      return;
+    }
+
+    allServers = data || [];
+    updateStats();
+    render();
+  }
+
+  function updateStats() {
+    const notDeleted = allServers.filter(s => !s.deleted_at);
+    document.getElementById('statTotal').textContent = notDeleted.length;
+    document.getElementById('statApproved').textContent = notDeleted.filter(s => s.moderation_status === 'approved').length;
+    document.getElementById('statPending').textContent = notDeleted.filter(s => s.moderation_status === 'pending').length;
+    document.getElementById('statViews').textContent = notDeleted.reduce((sum, s) => sum + (s.views_count || 0), 0).toLocaleString('ru-RU');
+  }
+
+  function render() {
+    let filtered;
+    if (currentTab === 'active') filtered = allServers.filter(s => !s.deleted_at && s.moderation_status === 'approved');
+    else if (currentTab === 'pending') filtered = allServers.filter(s => !s.deleted_at && s.moderation_status === 'pending');
+    else if (currentTab === 'rejected') filtered = allServers.filter(s => !s.deleted_at && s.moderation_status === 'rejected');
+    else if (currentTab === 'trash') filtered = allServers.filter(s => s.deleted_at);
+
+    if (!filtered.length) {
+      serverList.innerHTML = '';
+      emptyState.style.display = 'block';
+      const texts = {
+        active: 'У тебя нет опубликованных серверов.',
+        pending: 'Нет серверов на модерации.',
+        rejected: 'Нет отклонённых серверов. Отлично!',
+        trash: 'Корзина пуста.'
+      };
+      emptyText.textContent = texts[currentTab];
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    serverList.innerHTML = filtered.map(s => renderServer(s)).join('');
+    attachHandlers();
+  }
+
+  function renderServer(s) {
+    const avatar = s.avatar_url
+      ? `<img src="${escapeHtml(s.avatar_url)}" alt="">`
+      : escapeHtml(s.name[0].toUpperCase());
+
+    const nsfwBadge = s.is_nsfw ? '<span class="badge nsfw">18+</span>' : '';
+    const inTrash = !!s.deleted_at;
+
+    let actions = '';
+    if (inTrash) {
+      actions = `
+        <button class="action-btn success" data-action="restore" data-id="${s.id}">↩ Восстановить</button>
+        <button class="action-btn danger" data-action="delete-forever" data-id="${s.id}">🗑 Удалить навсегда</button>
+      `;
+    } else {
+      actions = `
+        <a class="action-btn" href="https://kirill12633.github.io/partnership.metro.new/server/?id=${s.id}" target="_blank">👁 Открыть</a>
+        <button class="action-btn" data-action="edit" data-id="${s.id}">✎ Редактировать</button>
+        ${s.status === 'active'
+          ? `<button class="action-btn" data-action="pause" data-id="${s.id}">⏸ Пауза</button>`
+          : `<button class="action-btn success" data-action="resume" data-id="${s.id}">▶ Возобновить</button>`}
+        <button class="action-btn danger" data-action="trash" data-id="${s.id}">🗑 В корзину</button>
+      `;
+    }
+
+    const rejectionNote = (s.moderation_status === 'rejected' && s.moderation_note)
+      ? `<div class="rejection-note"><strong>Причина:</strong> ${escapeHtml(s.moderation_note)}</div>`
+      : '';
+
+    const stats = `
+      <div class="server-stats">
+        <div class="server-stat">👁 <strong>${(s.views_count || 0).toLocaleString('ru-RU')}</strong> просмотров</div>
+        <div class="server-stat">↗ <strong>${(s.clicks_count || 0).toLocaleString('ru-RU')}</strong> кликов</div>
+        <div class="server-stat">📅 ${new Date(s.created_at).toLocaleDateString('ru-RU')}</div>
+      </div>
+    `;
+
+    return `
+      <div class="server-card">
+        <div class="server-main">
+          <div class="server-avatar">${avatar}</div>
+          <div class="server-body">
+            <div class="server-title">
+              <span class="server-name">${escapeHtml(s.name)}</span>
+              ${statusBadge(s)}
+              ${nsfwBadge}
+            </div>
+            <div class="server-desc">${escapeHtml((s.description || '').slice(0, 160))}${(s.description || '').length > 160 ? '...' : ''}</div>
+            <div class="server-meta">
+              <span>👥 ${(s.members || 0).toLocaleString('ru-RU')}</span>
+              <span>📁 ${escapeHtml(s.category)}</span>
+              <span>🌐 ${escapeHtml((s.language || '').toUpperCase())}</span>
+            </div>
+            ${rejectionNote}
+            ${stats}
+            <div class="server-actions">${actions}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===== Обработчики =====
+  function attachHandlers() {
+    serverList.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        const id = parseInt(btn.dataset.id);
+        const server = allServers.find(s => s.id === id);
+        if (!server) return;
+
+        if (action === 'edit') openEditModal(server);
+        if (action === 'trash') moveToTrash(id);
+        if (action === 'restore') restoreFromTrash(id);
+        if (action === 'delete-forever') deleteForever(id);
+        if (action === 'pause') setStatus(id, 'paused');
+        if (action === 'resume') setStatus(id, 'active');
+      });
+    });
+  }
+
+  // ===== Действия =====
+  async function moveToTrash(id) {
+    if (!confirm('Переместить в корзину? Через 30 дней сервер удалится навсегда.')) return;
+    const { error } = await supabase
+      .from('servers')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) return showToast('Ошибка: ' + error.message, 'error');
+    showToast('Сервер в корзине', 'success');
+    await loadServers();
+  }
+
+  async function restoreFromTrash(id) {
+    const { error } = await supabase
+      .from('servers')
+      .update({ deleted_at: null })
+      .eq('id', id);
+    if (error) return showToast('Ошибка: ' + error.message, 'error');
+    showToast('Сервер восстановлен', 'success');
+    await loadServers();
+  }
+
+  async function deleteForever(id) {
+    if (!confirm('Удалить навсегда? Это действие необратимо.')) return;
+    const { error } = await supabase.from('servers').delete().eq('id', id);
+    if (error) return showToast('Ошибка: ' + error.message, 'error');
+    showToast('Сервер удалён', 'success');
+    await loadServers();
+  }
+
+  async function setStatus(id, status) {
+    const { error } = await supabase
+      .from('servers')
+      .update({ status })
+      .eq('id', id);
+    if (error) return showToast('Ошибка: ' + error.message, 'error');
+    showToast(status === 'paused' ? 'Сервер на паузе' : 'Сервер возобновлён', 'success');
+    await loadServers();
+  }
+
+  // ===== Редактирование =====
+  function openEditModal(server) {
+    editingServer = server;
+    document.getElementById('edit-name').value = server.name || '';
+    document.getElementById('edit-desc').value = server.description || '';
+    document.getElementById('edit-category').value = server.category || 'Игры';
+    document.getElementById('edit-members').value = server.members || 0;
+    document.getElementById('modalOverlay').classList.add('show');
+  }
+
+  document.getElementById('cancelEdit').addEventListener('click', () => {
+    document.getElementById('modalOverlay').classList.remove('show');
+    editingServer = null;
+  });
+
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'modalOverlay') {
+      document.getElementById('modalOverlay').classList.remove('show');
+      editingServer = null;
+    }
+  });
+
+  document.getElementById('saveEdit').addEventListener('click', async () => {
+    if (!editingServer) return;
+    const saveBtn = document.getElementById('saveEdit');
+    saveBtn.disabled = true;
+
+    const updates = {
+      name: document.getElementById('edit-name').value.trim(),
+      description: document.getElementById('edit-desc').value.trim(),
+      category: document.getElementById('edit-category').value,
+      members: parseInt(document.getElementById('edit-members').value) || 0,
+      // Повторная модерация при изменениях
+      moderation_status: 'pending',
+      moderation_note: null
+    };
+
+    if (!updates.name || updates.name.length < 2) {
+      showToast('Название минимум 2 символа', 'error');
+      saveBtn.disabled = false;
+      return;
+    }
+    if (!updates.description || updates.description.length < 20) {
+      showToast('Описание минимум 20 символов', 'error');
+      saveBtn.disabled = false;
+      return;
+    }
+
+    const { error } = await supabase
+      .from('servers')
+      .update(updates)
+      .eq('id', editingServer.id);
+
+    saveBtn.disabled = false;
+
+    if (error) return showToast('Ошибка: ' + error.message, 'error');
+
+    document.getElementById('modalOverlay').classList.remove('show');
+    editingServer = null;
+    showToast('Изменения сохранены, сервер отправлен на повторную модерацию', 'success');
+    await loadServers();
+  });
+
+  // ===== Табы =====
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentTab = tab.dataset.tab;
+      render();
+    });
+  });
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  checkAuth();
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session?.user) checkAuth();
+    if (event === 'SIGNED_OUT') { authRequired.classList.add('show'); dashboardWrap.style.display = 'none'; }
+  });
+</script>
+</body>
+</html>
