@@ -61,7 +61,6 @@
   .error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 20px; display: none; text-align: left; line-height: 1.5; }
   .error.show { display: block; }
 
-  /* Экран загрузки (пока обрабатывается токен из URL) */
   .loading-screen { display: none; padding: 40px 0; }
   .loading-screen.show { display: block; }
   .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
@@ -121,13 +120,11 @@
 
   <div class="logo"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
 
-  <!-- ЭКРАН ЗАГРУЗКИ (обработка токена) -->
   <div id="loadingScreen" class="loading-screen">
     <div class="loading-spinner"></div>
     <div class="loading-text">Завершаем вход...</div>
   </div>
 
-  <!-- ЭКРАН ВХОДА -->
   <div id="loginView" style="display:none">
     <h1>Вход в аккаунт</h1>
     <p class="sub">Войди через Discord, чтобы управлять своим профилем. Каталог доступен и без входа.</p>
@@ -137,11 +134,10 @@
       <span class="btn-text">Войти через Discord</span>
       <div class="spinner"></div>
     </button>
-    <p class="note">Продолжая, ты соглашаешься с <a href="https://kirill12633.github.io/press.metro.new/terms/">пользовательским соглашением</a> и <a href="https://kirill12633.github.io/press.metro.new/privacy/">политикой конфиденциальности</a>.</p>
+    <p class="note">Продолжая, ты соглашаешься с <a href="https://kirill12633.github.io/partnership.metro.new/terms/">пользовательским соглашением</a> и <a href="https://kirill12633.github.io/partnership.metro.new/privacy/">политикой конфиденциальности</a>.</p>
     <a class="back" href="https://kirill12633.github.io/partnership.metro.new/">← Вернуться в каталог</a>
   </div>
 
-  <!-- ЭКРАН ПРОФИЛЯ -->
   <div id="profileView" class="profile">
     <div class="greeting" id="greeting">Добрый день</div>
     <h1 class="profile-title">Твой аккаунт</h1>
@@ -167,8 +163,8 @@
     </div>
 
     <div class="actions">
-      <a class="btn-action primary" href="https://kirill12633.github.io/press.metro.new/dashboard/">Мои серверы</a>
-      <a class="btn-action" href="https://kirill12633.github.io/press.metro.new/add/">Добавить сервер</a>
+      <a class="btn-action primary" href="https://kirill12633.github.io/partnership.metro.new/dashboard/">Мои серверы</a>
+      <a class="btn-action" href="https://kirill12633.github.io/partnership.metro.new/add/">Добавить сервер</a>
       <a class="btn-action" href="https://kirill12633.github.io/partnership.metro.new/">Открыть каталог</a>
       <button class="btn-action danger" id="logoutBtn">Выйти из аккаунта</button>
     </div>
@@ -191,7 +187,8 @@
     auth: {
       detectSessionInUrl: true,
       persistSession: true,
-      autoRefreshToken: true
+      autoRefreshToken: true,
+      flowType: 'implicit'
     }
   });
 
@@ -201,7 +198,6 @@
   const loginBtn = document.getElementById('loginBtn');
   const errorBox = document.getElementById('errorBox');
 
-  // Ошибки из URL
   const params = new URLSearchParams(location.search);
   const err = params.get('error');
   if (err) {
@@ -227,7 +223,6 @@
     return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  // Показать/скрыть экраны
   function showScreen(name) {
     loadingScreen.classList.remove('show');
     loginView.style.display = 'none';
@@ -238,7 +233,6 @@
     if (name === 'profile') profileView.classList.add('show');
   }
 
-  // Вход
   loginBtn.addEventListener('click', async () => {
     loginBtn.classList.add('loading');
     errorBox.classList.remove('show');
@@ -253,7 +247,6 @@
     }
   });
 
-  // Загрузить профиль
   async function loadProfile(user) {
     const { data: profile } = await supabase
       .from('profiles_public')
@@ -261,9 +254,9 @@
       .eq('id', user.id)
       .single();
 
-    const name = profile?.username || 'Пользователь';
-    const avatar = profile?.avatar_url || 'https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png';
-    const discordId = profile?.discord_id || user.id.slice(0, 8);
+    const name = profile?.username || user.user_metadata?.full_name || 'Пользователь';
+    const avatar = profile?.avatar_url || user.user_metadata?.avatar_url || 'https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png';
+    const discordId = profile?.discord_id || user.user_metadata?.provider_id || user.id.slice(0, 8);
     const joined = profile?.created_at || user.created_at;
 
     document.getElementById('greeting').innerHTML =
@@ -276,7 +269,6 @@
     showScreen('profile');
   }
 
-  // Выход
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     await supabase.auth.signOut();
     location.href = window.location.pathname;
@@ -290,32 +282,30 @@
 
   // ===== ИНИЦИАЛИЗАЦИЯ =====
   async function init() {
-    // Проверяем, есть ли токен в URL (после редиректа с Discord)
     const hash = location.hash || '';
-    const hasAuthHash = hash.includes('access_token') || hash.includes('refresh_token');
     const query = location.search || '';
-    const hasAuthQuery = query.includes('code=');
+    const hasToken = hash.includes('access_token') || query.includes('code=');
 
-    if (hasAuthHash || hasAuthQuery) {
-      // Показываем «Завершаем вход...» пока Supabase обрабатывает токен
-      showScreen('loading');
-    }
+    if (hasToken) showScreen('loading');
 
-    // Ждём, пока Supabase инициализирует сессию
+    // Ждём сессию (getSession читает из localStorage, не дёргает сеть)
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session?.user) {
       await loadProfile(session.user);
-    } else {
-      showScreen('login');
+      if (hasToken) history.replaceState(null, '', window.location.pathname);
+      return;
     }
+
+    // Если токена нет — показываем форму входа
+    if (!hasToken) showScreen('login');
+    // Если токен есть, но сессии пока нет — ждём onAuthStateChange
   }
 
-  // Слушаем изменения сессии (важно для OAuth-редиректа)
+  // onAuthStateChange ловит SIGNED_IN после обработки токена из URL
   supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session?.user) {
       await loadProfile(session.user);
-      // Убираем токен из URL, чтобы не светился
       if (location.hash.includes('access_token') || location.search.includes('code=')) {
         history.replaceState(null, '', window.location.pathname);
       }
