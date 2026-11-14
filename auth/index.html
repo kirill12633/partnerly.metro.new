@@ -61,6 +61,12 @@
   .error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 20px; display: none; text-align: left; line-height: 1.5; }
   .error.show { display: block; }
 
+  /* Экран загрузки (пока обрабатывается токен из URL) */
+  .loading-screen { display: none; padding: 40px 0; }
+  .loading-screen.show { display: block; }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+  .loading-text { font-size: 14px; color: var(--dim); }
+
   .profile { display: none; }
   .profile.show { display: block; }
   .greeting { font-size: 15px; color: var(--dim); margin-bottom: 6px; }
@@ -102,7 +108,6 @@
   .back { display: inline-block; margin-top: 22px; font-size: 13px; color: var(--dim); text-decoration: none; }
   .back:hover { color: var(--accent); }
 
-  /* Подсказка про email */
   .email-hint {
     font-size: 11px; color: var(--dim-2);
     background: var(--bg); border: 1px dashed var(--border);
@@ -116,8 +121,14 @@
 
   <div class="logo"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
 
+  <!-- ЭКРАН ЗАГРУЗКИ (обработка токена) -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Завершаем вход...</div>
+  </div>
+
   <!-- ЭКРАН ВХОДА -->
-  <div id="loginView">
+  <div id="loginView" style="display:none">
     <h1>Вход в аккаунт</h1>
     <p class="sub">Войди через Discord, чтобы управлять своим профилем. Каталог доступен и без входа.</p>
     <div class="error" id="errorBox"></div>
@@ -176,14 +187,21 @@
   const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
 
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+      detectSessionInUrl: true,
+      persistSession: true,
+      autoRefreshToken: true
+    }
+  });
 
+  const loadingScreen = document.getElementById('loadingScreen');
   const loginView = document.getElementById('loginView');
   const profileView = document.getElementById('profileView');
   const loginBtn = document.getElementById('loginBtn');
   const errorBox = document.getElementById('errorBox');
 
-  // Ошибки из URL после OAuth-редиректа
+  // Ошибки из URL
   const params = new URLSearchParams(location.search);
   const err = params.get('error');
   if (err) {
@@ -196,7 +214,6 @@
     errorBox.classList.add('show');
   }
 
-  // Приветствие по времени суток
   function getGreeting() {
     const h = new Date().getHours();
     if (h >= 5 && h < 12) return 'Доброе утро';
@@ -205,14 +222,23 @@
     return 'Доброй ночи';
   }
 
-  // Формат даты
   function formatDate(iso) {
     if (!iso) return '—';
-    const d = new Date(iso);
-    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  // Вход через Discord
+  // Показать/скрыть экраны
+  function showScreen(name) {
+    loadingScreen.classList.remove('show');
+    loginView.style.display = 'none';
+    profileView.classList.remove('show');
+
+    if (name === 'loading') loadingScreen.classList.add('show');
+    if (name === 'login') loginView.style.display = 'block';
+    if (name === 'profile') profileView.classList.add('show');
+  }
+
+  // Вход
   loginBtn.addEventListener('click', async () => {
     loginBtn.classList.add('loading');
     errorBox.classList.remove('show');
@@ -227,16 +253,8 @@
     }
   });
 
-  // Показать профиль — читаем из profiles_public (БЕЗ email)
-  async function showProfile() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      loginView.style.display = 'block';
-      profileView.classList.remove('show');
-      return;
-    }
-
-    // ВАЖНО: profiles_public — VIEW без email
+  // Загрузить профиль
+  async function loadProfile(user) {
     const { data: profile } = await supabase
       .from('profiles_public')
       .select('username, avatar_url, discord_id, created_at')
@@ -255,14 +273,13 @@
     document.getElementById('userDiscordId').textContent = 'Discord ID: ' + discordId;
     document.getElementById('userJoined').textContent = 'С нами с ' + formatDate(joined);
 
-    loginView.style.display = 'none';
-    profileView.classList.add('show');
+    showScreen('profile');
   }
 
   // Выход
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     await supabase.auth.signOut();
-    location.reload();
+    location.href = window.location.pathname;
   });
 
   function escapeHtml(s) {
@@ -271,12 +288,44 @@
     }[c]));
   }
 
-  // Старт
-  showProfile();
-  supabase.auth.onAuthStateChange((event) => {
-    if (event === 'SIGNED_IN') showProfile();
-    if (event === 'SIGNED_OUT') location.reload();
+  // ===== ИНИЦИАЛИЗАЦИЯ =====
+  async function init() {
+    // Проверяем, есть ли токен в URL (после редиректа с Discord)
+    const hash = location.hash || '';
+    const hasAuthHash = hash.includes('access_token') || hash.includes('refresh_token');
+    const query = location.search || '';
+    const hasAuthQuery = query.includes('code=');
+
+    if (hasAuthHash || hasAuthQuery) {
+      // Показываем «Завершаем вход...» пока Supabase обрабатывает токен
+      showScreen('loading');
+    }
+
+    // Ждём, пока Supabase инициализирует сессию
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session?.user) {
+      await loadProfile(session.user);
+    } else {
+      showScreen('login');
+    }
+  }
+
+  // Слушаем изменения сессии (важно для OAuth-редиректа)
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session?.user) {
+      await loadProfile(session.user);
+      // Убираем токен из URL, чтобы не светился
+      if (location.hash.includes('access_token') || location.search.includes('code=')) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
+    if (event === 'SIGNED_OUT') {
+      showScreen('login');
+    }
   });
+
+  init();
 </script>
 </body>
 </html>
