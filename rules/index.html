@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила размещения — Metro New Partnership</title>
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --danger: #dc2626; --success: #16a34a; --warning: #d97706;
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 85% 10%, rgba(99,102,241,.05), transparent 40%); }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 20px 100px; }
+
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .back-link { font-size: 13px; color: var(--dim); text-decoration: none; padding: 8px 14px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-2); transition: all .2s; }
+  .back-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .page-title { font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; line-height: 1.15; }
+  .page-meta { font-size: 13px; color: var(--dim-2); margin-bottom: 32px; }
+
+  .content { background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-md); }
+  @media (max-width: 600px) { .content { padding: 26px 20px; } }
+
+  .content h2 { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin: 32px 0 14px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+  .content h3 { font-size: 16px; font-weight: 700; margin: 22px 0 10px; }
+  .content p { font-size: 14.5px; line-height: 1.7; color: var(--text); margin-bottom: 14px; }
+  .content ul, .content ol { margin: 0 0 16px 0; padding-left: 24px; }
+  .content li { font-size: 14.5px; line-height: 1.7; margin-bottom: 8px; }
+  .content a { color: var(--accent); text-decoration: none; }
+  .content a:hover { text-decoration: underline; }
+  .content strong { font-weight: 700; }
+
+  .info-box { background: var(--accent-soft); border: 1px solid rgba(99,102,241,.18); border-radius: 12px; padding: 16px 18px; margin: 18px 0; font-size: 14px; line-height: 1.6; }
+  .info-box strong { color: var(--accent); }
+  .info-box.warning { background: #fffbeb; border-color: #fde68a; }
+  .info-box.warning strong { color: var(--warning); }
+  .info-box.danger { background: #fef2f2; border-color: #fecaca; }
+  .info-box.danger strong { color: var(--danger); }
+
+  .rule-card { display: flex; gap: 14px; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
+  .rule-num { width: 32px; height: 32px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .rule-body { flex: 1; }
+  .rule-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .rule-desc { font-size: 13.5px; color: var(--dim); line-height: 1.55; }
+
+  .rule-card.forbidden .rule-num { background: #fef2f2; color: var(--danger); }
+  .rule-card.allowed .rule-num { background: #f0fdf4; color: var(--success); }
+
+  .toc { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-bottom: 32px; }
+  .toc h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--dim-2); margin-bottom: 12px; }
+  .toc ol { margin: 0; padding-left: 20px; }
+  .toc li { font-size: 13.5px; line-height: 1.6; margin-bottom: 6px; }
+  .toc a { color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+
+  .footer-note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--dim); text-align: center; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="logo" href="https://kirill12633.github.io/partnership.metro.new/">
+      <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      Metro New Partnership
+    </a>
+    <a class="back-link" href="https://kirill12633.github.io/partnership.metro.new/">← На главную</a>
+  </div>
+
+  <h1 class="page-title">Правила размещения</h1>
+  <div class="page-meta">Последнее обновление: 14 ноября 2026 г.</div>
+
+  <div class="content">
+
+    <div class="info-box">
+      Эти правила действуют для всех серверов, размещённых в каталоге <strong>Metro New Partnership</strong>. Нарушение правил ведёт к отклонению заявки или удалению сервера.
+    </div>
+
+    <div class="toc">
+      <h4>Содержание</h4>
+      <ol>
+        <li><a href="#general">Общие требования</a></li>
+        <li><a href="#allowed">Что можно размещать</a></li>
+        <li><a href="#forbidden">Что запрещено</a></li>
+        <li><a href="#content">Требования к контенту</a></li>
+        <li><a href="#nsfw">Контент 18+</a></li>
+        <li><a href="#moderation">Как проходит модерация</a></li>
+        <li><a href="#sanctions">Санкции за нарушения</a></li>
+        <li><a href="#appeal">Как обжаловать</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ol>
+    </div>
+
+    <h2 id="general">1. Общие требования</h2>
+    <p>Чтобы сервер был размещён в каталоге, он должен соответствовать следующим требованиям:</p>
+    <ul>
+      <li><strong>Вы — администратор или владелец</strong> сервера. Это проверяется через Discord API.</li>
+      <li><strong>Сервер активен</strong> — в нём есть участники и общение.</li>
+      <li><strong>Ссылка-приглашение рабочая</strong> — не истекла, ведёт на этот сервер, не на бота.</li>
+      <li><strong>Информация достоверна</strong> — название, описание, количество участников соответствуют реальности.</li>
+      <li><strong>Сервер не нарушает правила</strong> — см. разделы 3 и 4.</li>
+    </ul>
+
+    <h2 id="allowed">2. Что можно размещать</h2>
+    <p>Мы приветствуем любые Discord-сообщества, кроме запрещённых (см. раздел 3). Вот примеры:</p>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Игровые сообщества</div>
+        <div class="rule-desc">Серверы по играм, включая Roblox, Minecraft, CS2, Dota 2 и другие.</div>
+      </div>
+    </div>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Творческие сообщества</div>
+        <div class="rule-desc">Художники, музыканты, писатели, дизайнеры, фотографы.</div>
+      </div>
+    </div>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Образовательные</div>
+        <div class="rule-desc">Программирование, языки, наука, учёба.</div>
+      </div>
+    </div>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Общение по интересам</div>
+        <div class="rule-desc">Аниме, кино, музыка, мемы, спорт, путешествия.</div>
+      </div>
+    </div>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Ролевые сообщества</div>
+        <div class="rule-desc">RP-серверы, если контент не нарушает правила (см. раздел 4).</div>
+      </div>
+    </div>
+
+    <div class="rule-card allowed">
+      <div class="rule-num">✓</div>
+      <div class="rule-body">
+        <div class="rule-title">Тематические</div>
+        <div class="rule-desc">Метро, транспорт, урбанистика — особенно приветствуются сообщества, близкие к Metro New.</div>
+      </div>
+    </div>
+
+    <h2 id="forbidden">3. Что запрещено</h2>
+    <p>Следующие категории серверов <strong>не будут размещены</strong> или будут удалены:</p>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Незаконный контент</div>
+        <div class="rule-desc">Всё, что нарушает законодательство РФ или международное право.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Насилие и экстремизм</div>
+        <div class="rule-desc">Пропаганда насилия, терроризма, экстремизма, жестокости.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Разжигание ненависти</div>
+        <div class="rule-desc">По признаку расы, национальности, религии, пола, ориентации, возраста.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">NSFW без маркировки</div>
+        <div class="rule-desc">Контент 18+ разрешён только с флагом NSFW (см. раздел 5).</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Спам и мошенничество</div>
+        <div class="rule-desc">Фишинг, обман, навязчивая реклама, «заработок в интернете», скам.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Пиратство</div>
+        <div class="rule-desc">Нелицензионный контент, взломанные игры, «бесплатные» подписки.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Вредоносные ссылки</div>
+        <div class="rule-desc">Вирусы, трояны, эксплойты, стиллеры, «читы» с malware.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Персональные данные</div>
+        <div class="rule-desc">Публикация чужих персональных данных без согласия, доксинг.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Обход блокировок</div>
+        <div class="rule-desc">Серверы, созданные для обхода бана на Платформе.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">✕</div>
+      <div class="rule-body">
+        <div class="rule-title">Авторские права</div>
+        <div class="rule-desc">Контент, нарушающий чужую интеллектуальную собственность (см. <a href="https://kirill12633.github.io/partnership.metro.new/dmca/">DMCA</a>).</div>
+      </div>
+    </div>
+
+    <div class="info-box danger">
+      <strong>Важно:</strong> сервер может быть удалён без предупреждения, если администрация сочтёт его нарушающим правила. Решение окончательное.
+    </div>
+
+    <h2 id="content">4. Требования к контенту</h2>
+    <h3>4.1. Название и описание</h3>
+    <ul>
+      <li>Название — от 2 до 60 символов.</li>
+      <li>Описание — от 20 до 500 символов, не только эмодзи.</li>
+      <li>Без капса, без спама символами, без оскорблений.</li>
+      <li>Без вводящих в заблуждение формулировок («официальный сервер», если это не так).</li>
+    </ul>
+
+    <h3>4.2. Фото</h3>
+    <ul>
+      <li>Только изображения: PNG, JPG, WEBP, GIF.</li>
+      <li>До 5 МБ.</li>
+      <li>Без NSFW-контента на превью (даже если сервер 18+).</li>
+      <li>Без чужих логотипов и брендов без разрешения.</li>
+    </ul>
+
+    <h3>4.3. Теги</h3>
+    <ul>
+      <li>До 8 тегов на сервер.</li>
+      <li>Без запрещённых слов (список в коде формы).</li>
+      <li>Теги должны отражать тематику сервера, а не быть спамом.</li>
+    </ul>
+
+    <h3>4.4. Ссылка-приглашение</h3>
+    <ul>
+      <li>Только Discord-приглашение: <code>discord.gg/...</code> или <code>discord.com/invite/...</code>.</li>
+      <li>Ссылка должна вести на этот сервер, а не на бота или другой сервер.</li>
+      <li>Ссылка не должна быть одноразовой или с ограниченным сроком действия.</li>
+    </ul>
+
+    <h3>4.5. Количество участников</h3>
+    <ul>
+      <li>Указывайте актуальное число.</li>
+      <li>Не завышайте — это вводит в заблуждение.</li>
+      <li>Если число сильно расходится с реальным — сервер может быть отклонён.</li>
+    </ul>
+
+    <h2 id="nsfw">5. Контент 18+ (NSFW)</h2>
+    <p>Серверы с контентом 18+ разрешены, но с ограничениями:</p>
+
+    <div class="rule-card">
+      <div class="rule-num">!</div>
+      <div class="rule-body">
+        <div class="rule-title">Обязательный флаг NSFW</div>
+        <div class="rule-desc">Владелец обязан отметить сервер как 18+ при добавлении. Без флага сервер будет отклонён.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-num">!</div>
+      <div class="rule-body">
+        <div class="rule-title">Только для совершеннолетних</div>
+        <div class="rule-desc">Сервер должен быть доступен только лицам 18+. Владелец обязан проверять возраст участников.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-num">!</div>
+      <div class="rule-body">
+        <div class="rule-title">Без запрещённого NSFW</div>
+        <div class="rule-desc">Запрещено: детская порнография, зоофилия, инцест, насилие сексуального характера, любой нелегальный контент.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-num">!</div>
+      <div class="rule-body">
+        <div class="rule-title">Без NSFW на превью</div>
+        <div class="rule-desc">Даже если сервер 18+, фото для каталога должно быть безопасным (SFW).</div>
+      </div>
+    </div>
+
+    <div class="info-box warning">
+      <strong>Внимание:</strong> нарушение правил NSFW ведёт к немедленному удалению сервера и блокировке аккаунта без возможности восстановления.
+    </div>
+
+    <h2 id="moderation">6. Как проходит модерация</h2>
+    <p>После отправки заявки сервер получает статус <strong>«На модерации»</strong> и не отображается в каталоге.</p>
+    <p>Администрация проверяет:</p>
+    <ul>
+      <li>Работоспособность ссылки-приглашения.</li>
+      <li>Соответствие описания и названия правилам.</li>
+      <li>Отсутствие запрещённого контента.</li>
+      <li>Активность сервера (есть ли участники, идёт ли общение).</li>
+    </ul>
+    <p><strong>Срок проверки:</strong> обычно до 24 часов, но может затянуться до 48 часов при большой нагрузке.</p>
+    <p><strong>Результат:</strong></p>
+    <ul>
+      <li><strong>Одобрено</strong> — сервер появляется в каталоге.</li>
+      <li><strong>Отклонено</strong> — сервер не публикуется, в личном кабинете указывается причина.</li>
+    </ul>
+
+    <h2 id="sanctions">7. Санкции за нарушения</h2>
+    <p>В зависимости от серьёзности нарушения применяются:</p>
+
+    <div class="rule-card">
+      <div class="rule-num">1</div>
+      <div class="rule-body">
+        <div class="rule-title">Предупреждение</div>
+        <div class="rule-desc">За мелкие нарушения (опечатки, неточности в описании). Сервер отклоняется с просьбой исправить.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-num">2</div>
+      <div class="rule-body">
+        <div class="rule-title">Удаление сервера</div>
+        <div class="rule-desc">За нарушение правил контента. Сервер удаляется из каталога, владелец может исправить и отправить заново.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">3</div>
+      <div class="rule-body">
+        <div class="rule-title">Блокировка аккаунта</div>
+        <div class="rule-desc">За грубые нарушения (запрещённый контент, спам, попытка взлома). Все серверы пользователя удаляются.</div>
+      </div>
+    </div>
+
+    <div class="rule-card forbidden">
+      <div class="rule-num">4</div>
+      <div class="rule-body">
+        <div class="rule-title">Пожизненная блокировка</div>
+        <div class="rule-desc">За особо опасные нарушения (детская порнография, терроризм, мошенничество в крупных размерах).</div>
+      </div>
+    </div>
+
+    <h2 id="appeal">8. Как обжаловать</h2>
+    <p>Если вы не согласны с решением модерации:</p>
+    <ol>
+      <li>Зайдите в <a href="https://kirill12633.github.io/partnership.metro.new/dashboard/">личный кабинет</a> — там указана причина отклонения.</li>
+      <li>Исправьте нарушения (если они есть).</li>
+      <li>Отправьте сервер заново через форму добавления.</li>
+    </ol>
+    <p>Если вы считаете решение ошибочным — напишите в <a href="https://discord.com/invite/WjGZBs3HMX" target="_blank" rel="noopener">Discord-сервер поддержки</a> с указанием ID сервера и причины несогласия.</p>
+    <p>Апелляции рассматриваются в течение 7 дней.</p>
+
+    <h2 id="contacts">9. Контакты</h2>
+    <p>По вопросам правил и модерации:</p>
+    <ul>
+      <li><strong>Discord-сервер:</strong> <a href="https://discord.com/invite/WjGZBs3HMX" target="_blank" rel="noopener">discord.gg/WjGZBs3HMX</a></li>
+      <li><strong>Telegram:</strong> <a href="https://t.me/Metro_New_Official" target="_blank" rel="noopener">@Metro_New_Official</a></li>
+    </ul>
+
+    <div class="footer-note">
+      © 2026 Metro New Partnership. Все права защищены.<br>
+      <a href="https://kirill12633.github.io/partnership.metro.new/terms/">Пользовательское соглашение</a> ·
+      <a href="https://kirill12633.github.io/partnership.metro.new/privacy/">Политика конфиденциальности</a> ·
+      <a href="https://kirill12633.github.io/partnership.metro.new/dmca/">Политика DMCA</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
