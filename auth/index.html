@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аккаунт — Metro New Partnership</title>
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --shadow-sm: 0 1px 2px rgba(15,15,26,.04);
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body {
+    font-family: var(--font); background: var(--bg); color: var(--text);
+    min-height: 100vh; display: grid; place-items: center; padding: 20px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(99,102,241,.10), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(139,92,246,.10), transparent 45%);
+  }
+  .box {
+    width: 100%; max-width: 440px; background: var(--bg-2);
+    border: 1px solid var(--border); border-radius: 22px;
+    padding: 40px 32px; box-shadow: var(--shadow-lg); text-align: center;
+    animation: fadeUp .5s ease;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .logo { width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 22px; overflow: hidden; box-shadow: var(--shadow-md); }
+  .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  h1 { font-size: 23px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .sub { font-size: 14px; color: var(--dim); line-height: 1.55; margin-bottom: 28px; }
+
+  .btn-discord {
+    width: 100%; padding: 15px 24px; border-radius: 12px; border: none;
+    background: #5865f2; color: #fff; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center;
+    justify-content: center; gap: 10px; transition: all .25s;
+    box-shadow: 0 4px 20px rgba(88,101,242,.3);
+  }
+  .btn-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(88,101,242,.4); }
+  .btn-discord svg { width: 20px; height: 20px; }
+  .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading .spinner { display: block; }
+  .loading .btn-text { display: none; }
+
+  .note { font-size: 12px; color: var(--dim-2); margin-top: 22px; line-height: 1.5; }
+  .note a { color: var(--accent); text-decoration: none; }
+  .note a:hover { text-decoration: underline; }
+
+  .error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 20px; display: none; text-align: left; line-height: 1.5; }
+  .error.show { display: block; }
+
+  .profile { display: none; }
+  .profile.show { display: block; }
+  .greeting { font-size: 15px; color: var(--dim); margin-bottom: 6px; }
+  .greeting strong { color: var(--text); }
+  h1.profile-title { margin-bottom: 28px; }
+
+  .avatar-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 18px; }
+  .avatar-big { width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: var(--accent-soft); box-shadow: var(--shadow-md); }
+  .avatar-big img { width: 100%; height: 100%; object-fit: cover; }
+  .badge-verified {
+    position: absolute; bottom: -4px; right: -4px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #5865f2; border: 3px solid var(--bg-2);
+    display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 700;
+  }
+
+  .username { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 4px; }
+  .discord-id { font-size: 12px; color: var(--dim-2); font-family: ui-monospace, monospace; margin-bottom: 6px; }
+  .joined { font-size: 12px; color: var(--dim); margin-bottom: 24px; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .info-item { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: left; }
+  .info-item .label { font-size: 11px; color: var(--dim-2); text-transform: uppercase; letter-spacing: .6px; font-weight: 600; margin-bottom: 5px; }
+  .info-item .value { font-size: 14px; font-weight: 700; }
+
+  .actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn-action {
+    padding: 13px 20px; border-radius: 11px; border: 1px solid var(--border);
+    background: var(--bg-2); color: var(--text); font-size: 14px; font-weight: 600;
+    cursor: pointer; font-family: inherit; text-decoration: none;
+    display: block; transition: all .2s; text-align: center;
+  }
+  .btn-action:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-action.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-action.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+  .btn-action.danger { color: #dc2626; }
+  .btn-action.danger:hover { border-color: #dc2626; background: #fef2f2; }
+
+  .back { display: inline-block; margin-top: 22px; font-size: 13px; color: var(--dim); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+
+  /* Подсказка про email */
+  .email-hint {
+    font-size: 11px; color: var(--dim-2);
+    background: var(--bg); border: 1px dashed var(--border);
+    border-radius: 8px; padding: 8px 12px; margin-top: 16px;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="logo"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+
+  <!-- ЭКРАН ВХОДА -->
+  <div id="loginView">
+    <h1>Вход в аккаунт</h1>
+    <p class="sub">Войди через Discord, чтобы управлять своим профилем. Каталог доступен и без входа.</p>
+    <div class="error" id="errorBox"></div>
+    <button class="btn-discord" id="loginBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0016.3 3l-.2.4c1.5.4 2.9 1.1 4.1 2.1a16.4 16.4 0 00-12.4 0c1.2-1 2.6-1.7 4.1-2.1L12 3c-1.4 0-2.8.2-4 .5A19.8 19.8 0 003.7 4.4C1.3 8.1.3 11.9.4 15.7a19.9 19.9 0 006 3c.5-.7.9-1.4 1.2-2.2-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0012 0l.5.4c-.6.4-1.3.7-2 1 .3.8.7 1.5 1.2 2.2a19.8 19.8 0 006-3c.2-4.4-1.2-8.1-4.2-11.3zM8.7 13.5c-.8 0-1.5-.7-1.5-1.6 0-.9.7-1.6 1.5-1.6.8 0 1.5.7 1.5 1.6 0 .9-.7 1.6-1.5 1.6zm6.6 0c-.8 0-1.5-.7-1.5-1.6 0-.9.7-1.6 1.5-1.6.8 0 1.5.7 1.5 1.6 0 .9-.7 1.6-1.5 1.6z"/></svg>
+      <span class="btn-text">Войти через Discord</span>
+      <div class="spinner"></div>
+    </button>
+    <p class="note">Продолжая, ты соглашаешься с <a href="https://kirill12633.github.io/press.metro.new/terms/">пользовательским соглашением</a> и <a href="https://kirill12633.github.io/press.metro.new/privacy/">политикой конфиденциальности</a>.</p>
+    <a class="back" href="https://kirill12633.github.io/partnership.metro.new/">← Вернуться в каталог</a>
+  </div>
+
+  <!-- ЭКРАН ПРОФИЛЯ -->
+  <div id="profileView" class="profile">
+    <div class="greeting" id="greeting">Добрый день</div>
+    <h1 class="profile-title">Твой аккаунт</h1>
+
+    <div class="avatar-wrap">
+      <div class="avatar-big" id="userAvatar"></div>
+      <div class="badge-verified" title="Discord подтверждён">✓</div>
+    </div>
+
+    <div class="username" id="userName">—</div>
+    <div class="discord-id" id="userDiscordId">—</div>
+    <div class="joined" id="userJoined">—</div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Способ входа</div>
+        <div class="value">Discord</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Статус</div>
+        <div class="value" id="userStatus">Активен</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn-action primary" href="https://kirill12633.github.io/press.metro.new/dashboard/">Мои серверы</a>
+      <a class="btn-action" href="https://kirill12633.github.io/press.metro.new/add/">Добавить сервер</a>
+      <a class="btn-action" href="https://kirill12633.github.io/partnership.metro.new/">Открыть каталог</a>
+      <button class="btn-action danger" id="logoutBtn">Выйти из аккаунта</button>
+    </div>
+
+    <div class="email-hint">
+      📧 Email из Discord не отображается на сайте. Он хранится только для служебных целей администрации.
+    </div>
+
+    <a class="back" href="https://kirill12633.github.io/partnership.metro.new/">← На главную</a>
+  </div>
+
+</div>
+
+<script type="module">
+  const SUPABASE_URL = 'https://bwuozoqhdklbucjqmydj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
+
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const loginView = document.getElementById('loginView');
+  const profileView = document.getElementById('profileView');
+  const loginBtn = document.getElementById('loginBtn');
+  const errorBox = document.getElementById('errorBox');
+
+  // Ошибки из URL после OAuth-редиректа
+  const params = new URLSearchParams(location.search);
+  const err = params.get('error');
+  if (err) {
+    const map = {
+      access_denied: 'Вы отменили вход через Discord. Попробуйте снова.',
+      redirect_uri_mismatch: 'Настройки входа временно недоступны. Сообщите администратору.',
+      server_error: 'Ошибка на стороне Discord. Попробуйте позже.'
+    };
+    errorBox.textContent = map[err] || 'Не удалось войти: ' + (params.get('error_description') || err);
+    errorBox.classList.add('show');
+  }
+
+  // Приветствие по времени суток
+  function getGreeting() {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 12) return 'Доброе утро';
+    if (h >= 12 && h < 18) return 'Добрый день';
+    if (h >= 18 && h < 23) return 'Добрый вечер';
+    return 'Доброй ночи';
+  }
+
+  // Формат даты
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Вход через Discord
+  loginBtn.addEventListener('click', async () => {
+    loginBtn.classList.add('loading');
+    errorBox.classList.remove('show');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'discord',
+      options: { redirectTo: window.location.href }
+    });
+    if (error) {
+      errorBox.textContent = 'Не удалось подключиться к Discord: ' + error.message;
+      errorBox.classList.add('show');
+      loginBtn.classList.remove('loading');
+    }
+  });
+
+  // Показать профиль — читаем из profiles_public (БЕЗ email)
+  async function showProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      loginView.style.display = 'block';
+      profileView.classList.remove('show');
+      return;
+    }
+
+    // ВАЖНО: profiles_public — VIEW без email
+    const { data: profile } = await supabase
+      .from('profiles_public')
+      .select('username, avatar_url, discord_id, created_at')
+      .eq('id', user.id)
+      .single();
+
+    const name = profile?.username || 'Пользователь';
+    const avatar = profile?.avatar_url || 'https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png';
+    const discordId = profile?.discord_id || user.id.slice(0, 8);
+    const joined = profile?.created_at || user.created_at;
+
+    document.getElementById('greeting').innerHTML =
+      `${getGreeting()}, <strong>${escapeHtml(name)}</strong>`;
+    document.getElementById('userAvatar').innerHTML = `<img src="${avatar}" alt="">`;
+    document.getElementById('userName').textContent = name;
+    document.getElementById('userDiscordId').textContent = 'Discord ID: ' + discordId;
+    document.getElementById('userJoined').textContent = 'С нами с ' + formatDate(joined);
+
+    loginView.style.display = 'none';
+    profileView.classList.add('show');
+  }
+
+  // Выход
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    location.reload();
+  });
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // Старт
+  showProfile();
+  supabase.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_IN') showProfile();
+    if (event === 'SIGNED_OUT') location.reload();
+  });
+</script>
+</body>
+</html>
