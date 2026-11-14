@@ -13,7 +13,6 @@
     --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
     --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
     --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
-    --shadow-sm: 0 1px 2px rgba(15,15,26,.04);
     --shadow-md: 0 4px 16px rgba(15,15,26,.06);
     --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
     --font: 'Inter', system-ui, sans-serif;
@@ -33,13 +32,10 @@
     animation: fadeUp .5s ease;
   }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-
   .logo { width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 22px; overflow: hidden; box-shadow: var(--shadow-md); }
   .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
   h1 { font-size: 23px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
   .sub { font-size: 14px; color: var(--dim); line-height: 1.55; margin-bottom: 28px; }
-
   .btn-discord {
     width: 100%; padding: 15px 24px; border-radius: 12px; border: none;
     background: #5865f2; color: #fff; font-size: 15px; font-weight: 600;
@@ -53,25 +49,19 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading .spinner { display: block; }
   .loading .btn-text { display: none; }
-
   .note { font-size: 12px; color: var(--dim-2); margin-top: 22px; line-height: 1.5; }
   .note a { color: var(--accent); text-decoration: none; }
-  .note a:hover { text-decoration: underline; }
-
   .error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 14px; font-size: 13px; margin-bottom: 20px; display: none; text-align: left; line-height: 1.5; }
   .error.show { display: block; }
-
   .loading-screen { display: none; padding: 40px 0; }
   .loading-screen.show { display: block; }
   .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
   .loading-text { font-size: 14px; color: var(--dim); }
-
   .profile { display: none; }
   .profile.show { display: block; }
   .greeting { font-size: 15px; color: var(--dim); margin-bottom: 6px; }
   .greeting strong { color: var(--text); }
   h1.profile-title { margin-bottom: 28px; }
-
   .avatar-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 18px; }
   .avatar-big { width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: var(--accent-soft); box-shadow: var(--shadow-md); }
   .avatar-big img { width: 100%; height: 100%; object-fit: cover; }
@@ -81,16 +71,13 @@
     background: #5865f2; border: 3px solid var(--bg-2);
     display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 700;
   }
-
   .username { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 4px; }
   .discord-id { font-size: 12px; color: var(--dim-2); font-family: ui-monospace, monospace; margin-bottom: 6px; }
   .joined { font-size: 12px; color: var(--dim); margin-bottom: 24px; }
-
   .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
   .info-item { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: left; }
   .info-item .label { font-size: 11px; color: var(--dim-2); text-transform: uppercase; letter-spacing: .6px; font-weight: 600; margin-bottom: 5px; }
   .info-item .value { font-size: 14px; font-weight: 700; }
-
   .actions { display: flex; flex-direction: column; gap: 10px; }
   .btn-action {
     padding: 13px 20px; border-radius: 11px; border: 1px solid var(--border);
@@ -103,16 +90,9 @@
   .btn-action.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
   .btn-action.danger { color: #dc2626; }
   .btn-action.danger:hover { border-color: #dc2626; background: #fef2f2; }
-
   .back { display: inline-block; margin-top: 22px; font-size: 13px; color: var(--dim); text-decoration: none; }
   .back:hover { color: var(--accent); }
-
-  .email-hint {
-    font-size: 11px; color: var(--dim-2);
-    background: var(--bg); border: 1px dashed var(--border);
-    border-radius: 8px; padding: 8px 12px; margin-top: 16px;
-    line-height: 1.45;
-  }
+  .email-hint { font-size: 11px; color: var(--dim-2); background: var(--bg); border: 1px dashed var(--border); border-radius: 8px; padding: 8px 12px; margin-top: 16px; line-height: 1.45; }
 </style>
 </head>
 <body>
@@ -141,16 +121,13 @@
   <div id="profileView" class="profile">
     <div class="greeting" id="greeting">Добрый день</div>
     <h1 class="profile-title">Твой аккаунт</h1>
-
     <div class="avatar-wrap">
       <div class="avatar-big" id="userAvatar"></div>
       <div class="badge-verified" title="Discord подтверждён">✓</div>
     </div>
-
     <div class="username" id="userName">—</div>
     <div class="discord-id" id="userDiscordId">—</div>
     <div class="joined" id="userJoined">—</div>
-
     <div class="info-grid">
       <div class="info-item">
         <div class="label">Способ входа</div>
@@ -161,18 +138,15 @@
         <div class="value" id="userStatus">Активен</div>
       </div>
     </div>
-
     <div class="actions">
       <a class="btn-action primary" href="https://kirill12633.github.io/partnership.metro.new/dashboard/">Мои серверы</a>
       <a class="btn-action" href="https://kirill12633.github.io/partnership.metro.new/add/">Добавить сервер</a>
       <a class="btn-action" href="https://kirill12633.github.io/partnership.metro.new/">Открыть каталог</a>
       <button class="btn-action danger" id="logoutBtn">Выйти из аккаунта</button>
     </div>
-
     <div class="email-hint">
       📧 Email из Discord не отображается на сайте. Он хранится только для служебных целей администрации.
     </div>
-
     <a class="back" href="https://kirill12633.github.io/partnership.metro.new/">← На главную</a>
   </div>
 
@@ -203,8 +177,8 @@
   if (err) {
     const map = {
       access_denied: 'Вы отменили вход через Discord. Попробуйте снова.',
-      redirect_uri_mismatch: 'Настройки входа временно недоступны. Сообщите администратору.',
-      server_error: 'Ошибка на стороне Discord. Попробуйте позже.'
+      redirect_uri_mismatch: 'Настройки входа временно недоступны.',
+      server_error: 'Ошибка на стороне Discord.'
     };
     errorBox.textContent = map[err] || 'Не удалось войти: ' + (params.get('error_description') || err);
     errorBox.classList.add('show');
@@ -227,7 +201,6 @@
     loadingScreen.classList.remove('show');
     loginView.style.display = 'none';
     profileView.classList.remove('show');
-
     if (name === 'loading') loadingScreen.classList.add('show');
     if (name === 'login') loginView.style.display = 'block';
     if (name === 'profile') profileView.classList.add('show');
@@ -238,7 +211,10 @@
     errorBox.classList.remove('show');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
-      options: { redirectTo: window.location.href }
+      options: {
+        redirectTo: window.location.origin + window.location.pathname,
+        scopes: 'identify guilds'
+      }
     });
     if (error) {
       errorBox.textContent = 'Не удалось подключиться к Discord: ' + error.message;
@@ -280,7 +256,6 @@
     }[c]));
   }
 
-  // ===== ИНИЦИАЛИЗАЦИЯ =====
   async function init() {
     const hash = location.hash || '';
     const query = location.search || '';
@@ -288,7 +263,6 @@
 
     if (hasToken) showScreen('loading');
 
-    // Ждём сессию (getSession читает из localStorage, не дёргает сеть)
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session?.user) {
@@ -297,12 +271,14 @@
       return;
     }
 
-    // Если токена нет — показываем форму входа
-    if (!hasToken) showScreen('login');
-    // Если токен есть, но сессии пока нет — ждём onAuthStateChange
+    if (hasToken) {
+      history.replaceState(null, '', window.location.pathname);
+      errorBox.textContent = 'Сессия устарела. Войдите заново через Discord.';
+      errorBox.classList.add('show');
+    }
+    showScreen('login');
   }
 
-  // onAuthStateChange ловит SIGNED_IN после обработки токена из URL
   supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session?.user) {
       await loadProfile(session.user);
@@ -310,9 +286,7 @@
         history.replaceState(null, '', window.location.pathname);
       }
     }
-    if (event === 'SIGNED_OUT') {
-      showScreen('login');
-    }
+    if (event === 'SIGNED_OUT') showScreen('login');
   });
 
   init();
