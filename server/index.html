@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сервер — Metro New Partnership</title>
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef; --border-hover: #d4d4e0;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --danger: #dc2626; --success: #16a34a; --warning: #d97706;
+    --shadow-sm: 0 1px 2px rgba(15,15,26,.04);
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 85% 10%, rgba(99,102,241,.06), transparent 40%); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .header-actions { display: flex; gap: 10px; }
+  .btn-sm { padding: 9px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .2s; }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Загрузка / ошибки */
+  .loading-state, .error-state { text-align: center; padding: 80px 24px; }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state p, .error-state p { color: var(--dim); font-size: 15px; }
+  .error-state .icon { font-size: 56px; margin-bottom: 16px; }
+  .error-state h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .error-state a { display: inline-block; margin-top: 20px; padding: 13px 26px; border-radius: 11px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; }
+
+  /* Шапка сервера */
+  .server-hero { background: var(--bg-2); border: 1px solid var(--border); border-radius: 22px; padding: 32px; box-shadow: var(--shadow-md); margin-bottom: 20px; position: relative; overflow: hidden; }
+  .server-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(99,102,241,.06), transparent 60%); pointer-events: none; }
+  .hero-top { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; position: relative; }
+  .hero-avatar { width: 96px; height: 96px; border-radius: 22px; overflow: hidden; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 40px; flex-shrink: 0; box-shadow: var(--shadow-md); }
+  .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-info { flex: 1; min-width: 220px; }
+  .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .badge { font-size: 11px; padding: 5px 12px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .badge.cat { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(99,102,241,.15); }
+  .badge.nsfw { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+  .badge.lang { background: var(--bg); color: var(--dim); border: 1px solid var(--border); }
+  .hero-name { font-size: clamp(24px, 4vw, 32px); font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; line-height: 1.15; }
+  .hero-meta { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--dim); }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 5px; }
+  .hero-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; position: relative; }
+  .btn-join { padding: 13px 28px; border-radius: 11px; border: none; background: var(--accent); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all .2s; box-shadow: 0 4px 20px rgba(99,102,241,.3); }
+  .btn-join:hover { background: var(--accent-2); transform: translateY(-2px); }
+  .btn-share { padding: 13px 22px; border-radius: 11px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: all .2s; }
+  .btn-share:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Контент */
+  .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
+  @media (max-width: 760px) { .content-grid { grid-template-columns: 1fr; } }
+
+  .card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 18px; padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 18px; }
+  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .card h3 .ico { font-size: 18px; }
+  .card p { font-size: 14px; line-height: 1.65; color: var(--text); white-space: pre-wrap; }
+
+  /* Теги */
+  .tags-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag-pill { font-size: 12px; padding: 5px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--dim); font-weight: 500; }
+
+  /* Требования */
+  .req-list { display: flex; flex-direction: column; gap: 10px; }
+  .req-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .req-item:last-child { border-bottom: none; }
+  .req-item .label { color: var(--dim); }
+  .req-item .value { font-weight: 700; }
+  .req-cats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .req-note { background: var(--bg); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--dim); line-height: 1.55; margin-top: 12px; }
+
+  /* Контакты */
+  .contact-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); margin-bottom: 8px; transition: all .2s; text-decoration: none; color: var(--text); }
+  .contact-item:hover { border-color: var(--accent); background: var(--bg-2); }
+  .contact-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); display: grid; place-items: center; font-size: 16px; flex-shrink: 0; }
+  .contact-info { flex: 1; min-width: 0; }
+  .contact-type { font-size: 11px; color: var(--dim-2); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; }
+  .contact-value { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .contact-arrow { color: var(--dim-2); font-size: 16px; }
+
+  /* Статистика */
+  .stat-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .label { color: var(--dim); }
+  .stat-row .value { font-weight: 700; }
+
+  /* Похожие */
+  .similar-list { display: flex; flex-direction: column; gap: 8px; }
+  .similar-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); text-decoration: none; color: var(--text); transition: all .2s; }
+  .similar-item:hover { border-color: var(--accent); background: var(--bg-2); }
+  .similar-avatar { width: 34px; height: 34px; border-radius: 9px; overflow: hidden; background: var(--accent); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  .similar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .similar-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .similar-meta { font-size: 11px; color: var(--dim); }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: #fff; padding: 12px 22px; border-radius: 10px; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); transition: transform .3s; z-index: 200; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="logo" href="https://kirill12633.github.io/partnership.metro.new/">
+      <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      Metro New Partnership
+    </a>
+    <div class="header-actions">
+      <a class="btn-sm" href="https://kirill12633.github.io/partnership.metro.new/">← Каталог</a>
+    </div>
+  </div>
+
+  <div id="loadingState" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Загрузка сервера...</p>
+  </div>
+
+  <div id="errorState" class="error-state" style="display:none">
+    <div class="icon">😕</div>
+    <h2 id="errorTitle">Сервер не найден</h2>
+    <p id="errorText">Возможно, он удалён или ещё не прошёл модерацию.</p>
+    <a href="https://kirill12633.github.io/partnership.metro.new/">Вернуться в каталог</a>
+  </div>
+
+  <div id="content" style="display:none">
+    <!-- Шапка -->
+    <div class="server-hero">
+      <div class="hero-top">
+        <div class="hero-avatar" id="heroAvatar"></div>
+        <div class="hero-info">
+          <div class="hero-badges" id="heroBadges"></div>
+          <h1 class="hero-name" id="heroName">—</h1>
+          <div class="hero-meta" id="heroMeta"></div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-join" id="joinBtn" href="#" target="_blank" rel="noopener">Войти в Discord ↗</a>
+        <button class="btn-share" id="shareBtn">↗ Поделиться</button>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <!-- Левая колонка -->
+      <div>
+        <div class="card">
+          <h3><span class="ico">📝</span>Описание</h3>
+          <p id="description">—</p>
+        </div>
+
+        <div class="card" id="tagsCard" style="display:none">
+          <h3><span class="ico">🏷</span>Теги</h3>
+          <div class="tags-list" id="tagsList"></div>
+        </div>
+
+        <div class="card" id="partnersCard" style="display:none">
+          <h3><span class="ico">🤝</span>Требования к партнёрам</h3>
+          <div class="req-list" id="reqList"></div>
+          <div class="req-cats" id="reqCats"></div>
+          <div class="req-note" id="reqNote" style="display:none"></div>
+        </div>
+
+        <div class="card" id="contactsCard" style="display:none">
+          <h3><span class="ico">📞</span>Контакты для пиара</h3>
+          <div id="contactsList"></div>
+        </div>
+      </div>
+
+      <!-- Правая колонка -->
+      <div>
+        <div class="card">
+          <h3><span class="ico">📊</span>Статистика</h3>
+          <div class="stat-row"><span class="label">Участников</span><span class="value" id="statMembers">—</span></div>
+          <div class="stat-row"><span class="label">Просмотров</span><span class="value" id="statViews">—</span></div>
+          <div class="stat-row"><span class="label">Кликов</span><span class="value" id="statClicks">—</span></div>
+          <div class="stat-row"><span class="label">Добавлен</span><span class="value" id="statDate">—</span></div>
+        </div>
+
+        <div class="card" id="similarCard" style="display:none">
+          <h3><span class="ico">✨</span>Похожие серверы</h3>
+          <div class="similar-list" id="similarList"></div>
+        </div>
+
+        <div class="card" id="reportCard">
+          <h3><span class="ico">⚠️</span>Нашли нарушение?</h3>
+          <p style="font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:12px">Если сервер нарушает правила, сообщите администрации.</p>
+          <a class="contact-item" id="reportBtn" href="#" target="_blank" rel="noopener" style="margin-bottom:0">
+            <div class="contact-icon">🚩</div>
+            <div class="contact-info">
+              <div class="contact-type">Пожаловаться</div>
+              <div class="contact-value">Написать в Discord</div>
+            </div>
+            <span class="contact-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  const SUPABASE_URL = 'https://bwuozoqhdklbucjqmydj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
+  const DISCORD_INVITE = 'https://discord.com/invite/WjGZBs3HMX';
+
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const loadingState = document.getElementById('loadingState');
+  const errorState = document.getElementById('errorState');
+  const errorTitle = document.getElementById('errorTitle');
+  const errorText = document.getElementById('errorText');
+  const content = document.getElementById('content');
+  const toast = document.getElementById('toast');
+
+  let server = null;
+  let contacts = [];
+  let tags = [];
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  async function loadServer() {
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+
+    if (!id) return showError('Не указан ID сервера', 'Откройте сервер из каталога или личного кабинета.');
+
+    // Загружаем сервер
+    const { data: s, error } = await supabase
+      .from('servers')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error || !s) return showError('Сервер не найден', 'Возможно, он удалён или ещё не прошёл модерацию.');
+
+    // Проверка видимости: только approved или свой
+    const { data: { session } } = await supabase.auth.getSession();
+    const isOwner = session?.user?.id === s.owner_id;
+    const isApproved = s.moderation_status === 'approved' && !s.deleted_at && s.status === 'active';
+
+    if (!isApproved && !isOwner) {
+      return showError('Сервер недоступен', 'Этот сервер ещё не прошёл модерацию или скрыт владельцем.');
+    }
+
+    server = s;
+
+    // Контакты
+    const { data: c } = await supabase
+      .from('partnership_contacts')
+      .select('contact_type, contact_value')
+      .eq('server_id', id);
+    contacts = c || [];
+
+    // Теги
+    const { data: t } = await supabase
+      .from('server_tags')
+      .select('tag_id, tags(name)')
+      .eq('server_id', id);
+    tags = (t || []).map(x => x.tags?.name).filter(Boolean);
+
+    // Счётчик просмотров (если включён и не свой)
+    if (!isOwner && s.stats_enabled) {
+      supabase.rpc('increment_view', { server_id_input: s.id }).catch(() => {});
+    }
+
+    render();
+
+    // Похожие — та же категория, approved, не этот
+    const { data: similar } = await supabase
+      .from('servers')
+      .select('id, name, avatar_url, members, category')
+      .eq('category', s.category)
+      .eq('moderation_status', 'approved')
+      .is('deleted_at', null)
+      .eq('status', 'active')
+      .neq('id', s.id)
+      .order('members', { ascending: false })
+      .limit(5);
+
+    renderSimilar(similar || []);
+
+    loadingState.style.display = 'none';
+    content.style.display = 'block';
+  }
+
+  function showError(title, text) {
+    loadingState.style.display = 'none';
+    errorTitle.textContent = title;
+    errorText.textContent = text;
+    errorState.style.display = 'block';
+  }
+
+  function render() {
+    const s = server;
+
+    // Аватар
+    const avatarHtml = s.avatar_url
+      ? `<img src="${escapeHtml(s.avatar_url)}" alt="">`
+      : escapeHtml(s.name[0].toUpperCase());
+    document.getElementById('heroAvatar').innerHTML = avatarHtml;
+
+    // Бейджи
+    const badges = [
+      `<span class="badge cat">${escapeHtml(s.category)}</span>`,
+      `<span class="badge lang">${escapeHtml((s.language || '').toUpperCase())}</span>`
+    ];
+    if (s.is_nsfw) badges.push('<span class="badge nsfw">18+</span>');
+    document.getElementById('heroBadges').innerHTML = badges.join('');
+
+    // Название
+    document.getElementById('heroName').textContent = s.name;
+
+    // Мета
+    document.getElementById('heroMeta').innerHTML = `
+      <span>👥 ${(s.members || 0).toLocaleString('ru-RU')} участников</span>
+      ${s.views_count ? `<span>👁 ${s.views_count.toLocaleString('ru-RU')} просмотров</span>` : ''}
+    `;
+
+    // Кнопка входа
+    if (s.invite_link) {
+      const joinBtn = document.getElementById('joinBtn');
+      joinBtn.href = s.invite_link;
+      joinBtn.onclick = () => {
+        if (s.stats_enabled) supabase.rpc('increment_click', { server_id_input: s.id }).catch(() => {});
+      };
+    } else {
+      document.getElementById('joinBtn').style.display = 'none';
+    }
+
+    // Описание
+    document.getElementById('description').textContent = s.description || 'Описание отсутствует.';
+
+    // Теги
+    if (tags.length) {
+      document.getElementById('tagsCard').style.display = 'block';
+      document.getElementById('tagsList').innerHTML = tags.map(t =>
+        `<span class="tag-pill">${escapeHtml(t)}</span>`
+      ).join('');
+    }
+
+    // Требования к партнёрам
+    const hasReqs = s.partner_min_members || s.partner_min_online || (s.partner_categories && s.partner_categories.length) || s.partner_notes;
+    if (hasReqs) {
+      document.getElementById('partnersCard').style.display = 'block';
+      const reqList = [];
+      if (s.partner_min_members) reqList.push(`<div class="req-item"><span class="label">Минимум участников</span><span class="value">${s.partner_min_members.toLocaleString('ru-RU')}</span></div>`);
+      if (s.partner_min_online) reqList.push(`<div class="req-item"><span class="label">Минимум онлайна</span><span class="value">${s.partner_min_online.toLocaleString('ru-RU')}</span></div>`);
+      if (s.partner_conditions && s.partner_conditions.length) reqList.push(`<div class="req-item"><span class="label">Условия</span><span class="value">${s.partner_conditions.map(c => escapeHtml(c)).join(', ')}</span></div>`);
+      document.getElementById('reqList').innerHTML = reqList.join('');
+
+      if (s.partner_categories && s.partner_categories.length) {
+        document.getElementById('reqCats').innerHTML = s.partner_categories.map(c =>
+          `<span class="tag-pill">${escapeHtml(c)}</span>`
+        ).join('');
+      }
+
+      if (s.partner_notes) {
+        document.getElementById('reqNote').style.display = 'block';
+        document.getElementById('reqNote').textContent = s.partner_notes;
+      }
+    }
+
+    // Контакты
+    if (contacts.length) {
+      document.getElementById('contactsCard').style.display = 'block';
+      document.getElementById('contactsList').innerHTML = contacts.map(c => renderContact(c)).join('');
+    }
+
+    // Статистика
+    document.getElementById('statMembers').textContent = (s.members || 0).toLocaleString('ru-RU');
+    document.getElementById('statViews').textContent = s.stats_enabled ? (s.views_count || 0).toLocaleString('ru-RU') : '—';
+    document.getElementById('statClicks').textContent = s.stats_enabled ? (s.clicks_count || 0).toLocaleString('ru-RU') : '—';
+    document.getElementById('statDate').textContent = formatDate(s.created_at);
+
+    // Кнопка жалобы
+    document.getElementById('reportBtn').href = DISCORD_INVITE;
+  }
+
+  function renderContact(c) {
+    const type = c.contact_type;
+    const val = c.contact_value;
+    let icon = '💬', label = 'Discord', href = '#';
+
+    if (type === 'discord_user') {
+      icon = '💬'; label = 'Discord (юзер)';
+      const username = val.replace('@', '').split('#')[0];
+      href = `https://discord.com/users/${username}`;
+    } else if (type === 'discord_server') {
+      icon = '🌐'; label = 'Discord (сервер)';
+      href = val;
+    } else if (type === 'email') {
+      icon = '✉️'; label = 'Email';
+      href = `mailto:${val}`;
+    }
+
+    return `
+      <a class="contact-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+        <div class="contact-icon">${icon}</div>
+        <div class="contact-info">
+          <div class="contact-type">${label}</div>
+          <div class="contact-value">${escapeHtml(val)}</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+    `;
+  }
+
+  function renderSimilar(list) {
+    if (!list.length) return;
+    document.getElementById('similarCard').style.display = 'block';
+    document.getElementById('similarList').innerHTML = list.map(s => {
+      const avatar = s.avatar_url
+        ? `<img src="${escapeHtml(s.avatar_url)}" alt="">`
+        : escapeHtml(s.name[0].toUpperCase());
+      return `
+        <a class="similar-item" href="?id=${s.id}">
+          <div class="similar-avatar">${avatar}</div>
+          <div style="flex:1;min-width:0">
+            <div class="similar-name">${escapeHtml(s.name)}</div>
+            <div class="similar-meta">👥 ${(s.members || 0).toLocaleString('ru-RU')}</div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  // Поделиться
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast('Ссылка скопирована');
+    } catch {
+      showToast('Не удалось скопировать');
+    }
+  });
+
+  loadServer();
+</script>
+</body>
+</html>
