@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro New Partnership — Каталог Discord-сообществ</title>
+
+<!-- Иконка сайта -->
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="apple-touch-icon" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- OG-теги для превью в Discord/Telegram -->
+<meta property="og:title" content="Metro New Partnership — Каталог Discord-сообществ">
+<meta property="og:description" content="Найди партнёров и расти вместе. Каталог Discord-серверов для взаимного продвижения.">
+<meta property="og:image" content="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kirill12633.github.io/partnership.metro.new/">
+<meta name="theme-color" content="#6366f1">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #ffffff; --card: #ffffff;
+    --border: #e8e8ef; --border-hover: #d4d4e0;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --shadow-sm: 0 1px 2px rgba(15,15,26,.04);
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --shadow-lg: 0 12px 40px rgba(15,15,26,.08);
+    --radius: 16px;
+    --font: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --c-roblox: #e2231a; --c-discord: #5865f2; --c-telegram: #26a5e4;
+    --c-youtube: #ff0000; --c-tiktok: #000000; --c-boosty: #f7692c;
+    --c-reddit: #ff4500; --c-instagram: #e4405f;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; position: sticky; top: 0; z-index: 50; background: rgba(250,250,250,.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+  nav.scrolled { border-bottom-color: var(--border); }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+  .logo-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .logo-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--dim); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-btn { padding: 10px 20px; border-radius: 10px; border: none; background: var(--text); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+  .nav-btn:hover { background: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  @media (max-width: 720px) { .nav-links { display: none; } }
+
+  .hero { text-align: center; padding: 80px 0 64px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--accent); padding: 7px 16px; border-radius: 999px; background: var(--accent-soft); border: 1px solid rgba(99,102,241,.15); margin-bottom: 32px; }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .hero h1 { font-size: clamp(42px, 7vw, 76px); font-weight: 800; line-height: 1.02; letter-spacing: -3px; margin-bottom: 26px; }
+  .hero h1 .grad { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p.lead { font-size: clamp(16px, 2vw, 19px); color: var(--dim); max-width: 580px; margin: 0 auto 40px; line-height: 1.55; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 15px 34px; border-radius: 12px; border: none; background: var(--text); color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s; box-shadow: 0 4px 20px rgba(15,15,26,.15); }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(99,102,241,.3); }
+  .btn-secondary { padding: 15px 34px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s; box-shadow: var(--shadow-sm); }
+  .btn-secondary:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .hero-note { font-size: 13px; color: var(--dim-2); margin-top: 20px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin: 56px 0 0; box-shadow: var(--shadow-md); }
+  .stat { background: var(--bg-2); padding: 28px 20px; text-align: center; }
+  .stat .num { font-size: 30px; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat .label { font-size: 12px; color: var(--dim); margin-top: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: .8px; }
+
+  .showcase { margin: 64px 0; }
+  .showcase-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .showcase-head h3 { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
+  .showcase-head span { font-size: 13px; color: var(--dim); }
+  .showcase-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(240px, 1fr); gap: 14px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+  .showcase-row::-webkit-scrollbar { height: 6px; }
+  .showcase-row::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+  .mini-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all .2s; box-shadow: var(--shadow-sm); min-width: 240px; }
+  .mini-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .mini-avatar { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; overflow: hidden; flex-shrink: 0; }
+  .mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .mini-card h4 { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mini-card .mini-meta { font-size: 12px; color: var(--dim); margin-top: 2px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 72px 0; }
+  .feature { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: all .3s; box-shadow: var(--shadow-sm); }
+  .feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+  .feature .ico { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-size: 18px; margin-bottom: 16px; }
+  .feature h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .feature p { font-size: 14px; color: var(--dim); line-height: 1.5; }
+
+  .catalog-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .catalog-head .kicker { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .catalog-head h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -1.5px; }
+  .catalog-head .desc { font-size: 14px; color: var(--dim); max-width: 280px; text-align: right; }
+  @media (max-width: 600px) { .catalog-head .desc { text-align: left; } }
+
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+  .search { flex: 1 1 240px; padding: 13px 18px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 14px; outline: none; font-family: inherit; transition: all .2s; box-shadow: var(--shadow-sm); }
+  .search:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99,102,241,.08); }
+  .search::placeholder { color: var(--dim-2); }
+  select { padding: 13px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 14px; outline: none; font-family: inherit; cursor: pointer; box-shadow: var(--shadow-sm); transition: all .2s; }
+  select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99,102,241,.08); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; transition: all .3s; box-shadow: var(--shadow-sm); position: relative; }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+  .card-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+  .avatar { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; font-weight: 700; color: #fff; font-size: 18px; overflow: hidden; flex-shrink: 0; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .card h3 { font-size: 15px; font-weight: 700; padding-right: 28px; }
+  .meta { font-size: 12px; color: var(--dim); margin-top: 3px; }
+  .card p { font-size: 14px; line-height: 1.55; color: var(--dim); margin-bottom: 16px; flex: 1; }
+  .card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; border: 1px solid rgba(99,102,241,.12); }
+  .tag-extra { background: transparent; border-color: var(--border); color: var(--dim); }
+  .join { font-size: 13px; padding: 8px 16px; border-radius: 9px; border: none; background: var(--text); color: #fff; font-weight: 600; text-decoration: none; transition: all .2s; }
+  .join:hover { background: var(--accent); }
+  .share-btn { position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-2); color: var(--dim); cursor: pointer; display: grid; place-items: center; font-size: 13px; transition: all .2s; opacity: 0; }
+  .card:hover .share-btn { opacity: 1; }
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+  .skeleton { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .sk-line { height: 12px; border-radius: 6px; background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; margin-bottom: 10px; }
+  .sk-avatar { width: 46px; height: 46px; border-radius: 12px; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  .empty { grid-column: 1/-1; text-align: center; padding: 56px; color: var(--dim); font-size: 14px; }
+  .load-more-wrap { text-align: center; margin-top: 32px; }
+  .load-more { padding: 13px 32px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; box-shadow: var(--shadow-sm); }
+  .load-more:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer { margin-top: 80px; background: var(--bg-2); border-top: 1px solid var(--border); }
+  .footer-inner { max-width: 1160px; margin: 0 auto; padding: 56px 24px 24px; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.4fr; gap: 40px; }
+  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+  .footer-brand { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .footer-desc { font-size: 13px; color: var(--dim); line-height: 1.6; max-width: 280px; }
+  .footer-col h5 { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--dim-2); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { font-size: 14px; color: var(--dim); text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--accent); }
+
+  .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .social-btn { display: flex; align-items: center; gap: 9px; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 600; text-decoration: none; transition: all .25s; position: relative; overflow: hidden; }
+  .social-btn svg { width: 16px; height: 16px; flex-shrink: 0; transition: transform .25s; }
+  .social-btn:hover { transform: translateY(-2px); color: #fff; border-color: transparent; }
+  .social-btn:hover svg { transform: scale(1.15); }
+  .social-btn.roblox:hover    { background: var(--c-roblox); box-shadow: 0 6px 20px rgba(226,35,26,.35); }
+  .social-btn.discord:hover   { background: var(--c-discord); box-shadow: 0 6px 20px rgba(88,101,242,.35); }
+  .social-btn.telegram:hover  { background: var(--c-telegram); box-shadow: 0 6px 20px rgba(38,165,228,.35); }
+  .social-btn.youtube:hover   { background: var(--c-youtube); box-shadow: 0 6px 20px rgba(255,0,0,.35); }
+  .social-btn.tiktok:hover    { background: var(--c-tiktok); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+  .social-btn.boosty:hover    { background: var(--c-boosty); box-shadow: 0 6px 20px rgba(247,105,44,.35); }
+  .social-btn.reddit:hover    { background: var(--c-reddit); box-shadow: 0 6px 20px rgba(255,69,0,.35); }
+  .social-btn.instagram:hover { background: var(--c-instagram); box-shadow: 0 6px 20px rgba(228,64,95,.35); }
+
+  .footer-divider { border: none; border-top: 1px solid var(--border); margin: 40px 0 20px; }
+  .footer-bottom { text-align: center; font-size: 13px; color: var(--dim-2); }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: #fff; padding: 12px 22px; border-radius: 10px; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); transition: transform .3s; z-index: 999; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav id="nav">
+    <div class="logo">
+      <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      Metro New Partnership
+    </div>
+    <div class="nav-links">
+      <a href="#showcase">Витрина</a>
+      <a href="#features">Возможности</a>
+      <a href="#catalog">Каталог</a>
+    </div>
+    <button class="nav-btn" onclick="goAuth()">Войти через Discord</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge"><span class="dot"></span>Discord Partnership Platform</div>
+    <h1>Найди своих.<br><span class="grad">Расти вместе.</span></h1>
+    <p class="lead">Каталог Discord-сообществ для взаимного продвижения. Находи подходящие серверы, знакомься с владельцами и развивай своё сообщество.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Открыть каталог</button>
+      <button class="btn-secondary" onclick="goAuth()">Добавить сервер</button>
+    </div>
+    <p class="hero-note">Вход и подтверждение владельца — через Discord OAuth2</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num" id="statServers">—</div><div class="label">Серверов</div></div>
+      <div class="stat"><div class="num" id="statMembers">—</div><div class="label">Участников</div></div>
+      <div class="stat"><div class="num">8</div><div class="label">Категорий</div></div>
+      <div class="stat"><div class="num">6</div><div class="label">Языков</div></div>
+    </div>
+  </section>
+
+  <section class="showcase" id="showcase">
+    <div class="showcase-head"><h3>🔥 Новые за неделю</h3><span>Свежие сообщества</span></div>
+    <div class="showcase-row" id="newRow"><div class="sk-line" style="width:100%;height:60px"></div></div>
+    <div class="showcase-head" style="margin-top:32px"><h3>🏆 Топ по участникам</h3><span>Самые крупные</span></div>
+    <div class="showcase-row" id="topRow"><div class="sk-line" style="width:100%;height:60px"></div></div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature"><div class="ico">✦</div><h4>Проверка Discord</h4><p>Права владельца проверяются через Discord API — только реальные владельцы.</p></div>
+    <div class="feature"><div class="ico">↗</div><h4>Новые партнёры</h4><p>Расти вместе с сообществами. Находи серверы под свою тематику.</p></div>
+    <div class="feature"><div class="ico">⌕</div><h4>Каталог сообществ</h4><p>Поиск по темам, категориям и языкам. Фильтры в один клик.</p></div>
+    <div class="feature"><div class="ico">✓</div><h4>Взаимный пиар</h4><p>Проверенные партнёры и честные условия для роста.</p></div>
+  </section>
+
+  <section id="catalog">
+    <div class="catalog-head">
+      <div><div class="kicker">Discover Communities</div><h2>Каталог серверов</h2></div>
+      <div class="desc">Выбери сообщество и найди партнёров для взаимного роста</div>
+    </div>
+    <div class="filters">
+      <input class="search" id="search" placeholder="⌕ Поиск по названию...">
+      <select id="filterCategory">
+        <option value="">Все категории</option>
+        <option>Игры</option><option>Разработка</option><option>Творчество</option>
+        <option>Музыка</option><option>Мемы</option><option>Аниме</option>
+        <option>Общение</option><option>Другое</option>
+      </select>
+      <select id="filterLanguage">
+        <option value="">Все языки</option>
+        <option value="ru">Русский</option><option value="en">English</option>
+        <option value="ua">Українська</option><option value="by">Беларуская</option>
+        <option value="kz">Қазақша</option><option value="other">Другой</option>
+      </select>
+      <select id="sortBy">
+        <option value="members">По участникам</option>
+        <option value="new">По новизне</option>
+        <option value="views">По просмотрам</option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="load-more" id="loadMore">Показать ещё</button>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+          Metro New Partnership
+        </div>
+        <p class="footer-desc">Официальная платформа для поиска партнёров и взаимного продвижения Discord-сообществ.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Компания</h5>
+        <ul>
+          <!-- TODO: заменить href на реальные страницы -->
+          <li><a href="/about/">О нас</a></li>
+          <li><a href="/contacts/">Контакты</a></li>
+          <li><a href="/careers/">Вакансии</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Документы</h5>
+        <ul>
+          <!-- TODO: заменить href на реальные страницы -->
+          <li><a href="/legal/">Права и документы</a></li>
+          <li><a href="/privacy/">Политика конфиденциальности</a></li>
+          <li><a href="/terms/">Пользовательское соглашение</a></li>
+          <li><a href="/rules/">Правила сообщества</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Официальные сети</h5>
+        <div class="social-grid">
+          <a class="social-btn roblox" href="https://www.roblox.com/groups/34820737/RP-NEW#!/about" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 1.5L1.5 19.8 19.8 22.5 22.5 4.2 4.2 1.5zm9.1 13.9l-2.7-.4-1.1-6.7 6.7 1.1.4 2.7-3.3 3.3z"/></svg>Roblox</a>
+          <a class="social-btn discord" href="https://discord.com/invite/WjGZBs3HMX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0016.3 3l-.2.4c1.5.4 2.9 1.1 4.1 2.1a16.4 16.4 0 00-12.4 0c1.2-1 2.6-1.7 4.1-2.1L12 3c-1.4 0-2.8.2-4 .5A19.8 19.8 0 003.7 4.4C1.3 8.1.3 11.9.4 15.7a19.9 19.9 0 006 3c.5-.7.9-1.4 1.2-2.2-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0012 0l.5.4c-.6.4-1.3.7-2 1 .3.8.7 1.5 1.2 2.2a19.8 19.8 0 006-3c.2-4.4-1.2-8.1-4.2-11.3zM8.7 13.5c-.8 0-1.5-.7-1.5-1.6 0-.9.7-1.6 1.5-1.6.8 0 1.5.7 1.5 1.6 0 .9-.7 1.6-1.5 1.6zm6.6 0c-.8 0-1.5-.7-1.5-1.6 0-.9.7-1.6 1.5-1.6.8 0 1.5.7 1.5 1.6 0 .9-.7 1.6-1.5 1.6z"/></svg>Discord</a>
+          <a class="social-btn telegram" href="https://t.me/Metro_New_Official" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0011.9 0zm5.6 8.2l-1.9 8.9c-.1.6-.5.7-.9.5l-2.5-1.9-1.2 1.2c-.1.1-.3.2-.6.2l.2-2.6 4.7-4.2c.2-.2 0-.3-.3-.1l-5.8 3.7-2.5-.8c-.5-.2-.5-.5.1-.8l9.8-3.8c.5-.2.9.1.8.7z"/></svg>Telegram</a>
+          <a class="social-btn youtube" href="https://www.youtube.com/@Metro-RP-NEW-Roblox" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31.3 31.3 0 000 12a31.3 31.3 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31.3 31.3 0 0024 12a31.3 31.3 0 00-.5-5.8zM9.5 15.6V8.4L15.8 12l-6.3 3.6z"/></svg>YouTube</a>
+          <a class="social-btn tiktok" href="https://www.tiktok.com/@metro.new" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.7a5.4 5.4 0 01-3.2-1.1 5.4 5.4 0 01-2-2.9h-3.3v13.4a2.8 2.8 0 11-2-2.7V9.9a6.2 6.2 0 00-.9-.1A6.2 6.2 0 002 16a6.2 6.2 0 006.2 6.2 6.2 6.2 0 006.2-6.2V9.9a8.7 8.7 0 005.2 1.7V8.3a5.4 5.4 0 01-1-.3v-1.3z"/></svg>TikTok</a>
+          <a class="social-btn boosty" href="https://boosty.to/metro.new" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 4h6.5c3.6 0 5.8 1.8 5.8 4.6 0 2-1.1 3.5-2.9 4.2 2.3.6 3.8 2.3 3.8 4.7 0 3.3-2.5 5.5-6.5 5.5H2V4zm5.9 7.3c1.7 0 2.6-.8 2.6-2.1S9.6 7 7.9 7H5.3v4.3h2.6zm.4 8.7c1.9 0 2.9-.9 2.9-2.4 0-1.4-1-2.3-2.9-2.3H5.3v4.7h3z"/></svg>Boosty</a>
+          <a class="social-btn reddit" href="https://www.reddit.com/r/Metro_New/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.8a2.2 2.2 0 00-3.8-1.6 10.8 10.8 0 00-5.4-1.7l.9-4.3 3 .6a1.6 1.6 0 101.1-1.4l-3.7-.8a.5.5 0 00-.6.4l-1 4.8a10.8 10.8 0 00-5.6 1.7A2.2 2.2 0 002 11.8c0 .8.4 1.5 1 1.9v.6c0 3.1 3.6 5.6 8 5.6s8-2.5 8-5.6v-.6c.6-.4 1-1.1 1-1.9zM7 13.4a1.4 1.4 0 112.8 0 1.4 1.4 0 01-2.8 0zm7.8 3.4c-1 .9-2.5 1.2-3.8 1.2s-2.8-.3-3.8-1.2a.4.4 0 01.5-.5c.8.6 2.1.9 3.3.9s2.5-.3 3.3-.9a.4.4 0 01.5.5zm-.6-2a1.4 1.4 0 112.8 0 1.4 1.4 0 01-2.8 0z"/></svg>Reddit</a>
+          <a class="social-btn instagram" href="https://www.instagram.com/metro.new.official/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4a3.9 3.9 0 01-1.4-.9c-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.2-.1 1.6-.1 4.8-.1zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1a3.3 3.3 0 00-.8-1.2 3.3 3.3 0 00-1.2-.8c-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 8.1a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4zm6.3-8.3a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>Instagram</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2026 Metro New Partnership. Все права защищены.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  const SUPABASE_URL = 'https://bwuozoqhdklbucjqmydj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
+  const AUTH_URL = 'https://kirill12633.github.io/press.metro.new/auth/';
+
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  window.goAuth = () => { window.location.href = AUTH_URL; };
+
+  const grid = document.getElementById('grid');
+  const searchInput = document.getElementById('search');
+  const filterCategory = document.getElementById('filterCategory');
+  const filterLanguage = document.getElementById('filterLanguage');
+  const sortBy = document.getElementById('sortBy');
+  const loadMoreBtn = document.getElementById('loadMore');
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  const newRow = document.getElementById('newRow');
+  const topRow = document.getElementById('topRow');
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  let currentSearch = '', currentCategory = '', currentLanguage = '';
+  let currentSort = 'members';
+  let page = 0;
+  const PAGE_SIZE = 12;
+  let allData = [];
+
+  function renderSkeletons(count = 6) {
+    grid.innerHTML = Array(count).fill(0).map(() => `
+      <div class="skeleton">
+        <div style="display:flex;gap:12px;margin-bottom:14px">
+          <div class="sk-avatar sk-line"></div>
+          <div style="flex:1"><div class="sk-line" style="width:60%"></div><div class="sk-line" style="width:40%"></div></div>
+        </div>
+        <div class="sk-line"></div><div class="sk-line" style="width:80%"></div>
+      </div>`).join('');
+  }
+
+  function sortData(data) {
+    const arr = [...data];
+    if (currentSort === 'members') arr.sort((a,b) => (b.members||0) - (a.members||0));
+    if (currentSort === 'new')     arr.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+    if (currentSort === 'views')   arr.sort((a,b) => (b.views_count||0) - (a.views_count||0));
+    return arr;
+  }
+
+  async function loadServers() {
+    renderSkeletons();
+    page = 0;
+    const { data, error } = await supabase.rpc('search_servers', {
+      search_text: currentSearch || null,
+      category_input: currentCategory || null,
+      language_input: currentLanguage || null,
+      tag_input: null,
+      min_members: 0
+    });
+    if (error) { grid.innerHTML = `<div class="empty">Ошибка: ${error.message}</div>`; return; }
+    if (!data || !data.length) {
+      allData = []; grid.innerHTML = '<div class="empty">😕 Серверов не найдено</div>';
+      loadMoreWrap.style.display = 'none'; return;
+    }
+    allData = sortData(data);
+    const totalMembers = allData.reduce((sum, s) => sum + (s.members || 0), 0);
+    document.getElementById('statServers').textContent = allData.length;
+    document.getElementById('statMembers').textContent =
+      totalMembers >= 1000 ? (totalMembers/1000).toFixed(1) + 'K' : totalMembers;
+    renderShowcase();
+    renderPage();
+    allData.forEach(s => { if (s.stats_enabled) supabase.rpc('increment_view', { server_id_input: s.id }); });
+  }
+
+  function renderPage() {
+    const start = page * PAGE_SIZE;
+    const slice = allData.slice(start, start + PAGE_SIZE);
+    if (page === 0) grid.innerHTML = '';
+    grid.insertAdjacentHTML('beforeend', slice.map(cardHTML).join(''));
+    page++;
+    loadMoreWrap.style.display = (page * PAGE_SIZE < allData.length) ? 'block' : 'none';
+  }
+
+  function cardHTML(s) {
+    const tags = (s.partner_categories || []).slice(0,2);
+    return `
+      <div class="card" data-id="${s.id}">
+        <button class="share-btn" data-share="${s.id}" title="Поделиться">↗</button>
+        <div class="card-top">
+          <div class="avatar">${s.avatar_url ? `<img src="${s.avatar_url}" alt="">` : escapeHtml(s.name[0].toUpperCase())}</div>
+          <div><h3>${escapeHtml(s.name)}</h3><div class="meta">👥 ${(s.members||0).toLocaleString('ru-RU')} · ${escapeHtml((s.language||'').toUpperCase())}</div></div>
+        </div>
+        <p>${escapeHtml((s.description || '').slice(0, 110))}</p>
+        <div class="card-bottom">
+          <div class="tags"><span class="tag">${escapeHtml(s.category)}</span>${tags.map(t => `<span class="tag tag-extra">${escapeHtml(t)}</span>`).join('')}</div>
+          ${s.invite_link ? `<a class="join" href="${escapeHtml(s.invite_link)}" target="_blank" rel="noopener">Войти</a>` : ''}
+        </div>
+      </div>`;
+  }
+
+  function renderShowcase() {
+    const weekAgo = Date.now() - 7*24*60*60*1000;
+    const newOnes = allData.filter(s => new Date(s.created_at).getTime() > weekAgo).slice(0,8);
+    const top = sortData(allData).slice(0,8);
+    newRow.innerHTML = newOnes.length ? newOnes.map(miniHTML).join('') : '<div style="color:var(--dim);font-size:13px;padding:12px">Пока нет новых серверов</div>';
+    topRow.innerHTML = top.map(miniHTML).join('');
+  }
+
+  function miniHTML(s) {
+    return `<div class="mini-card" data-id="${s.id}">
+      <div class="mini-avatar">${s.avatar_url ? `<img src="${s.avatar_url}" alt="">` : escapeHtml(s.name[0].toUpperCase())}</div>
+      <div><h4>${escapeHtml(s.name)}</h4><div class="mini-meta">👥 ${(s.members||0).toLocaleString('ru-RU')}</div></div>
+    </div>`;
+  }
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-share]');
+    if (btn) {
+      const id = btn.dataset.share;
+      const url = `${location.origin}${location.pathname}?server=${id}`;
+      try { await navigator.clipboard.writeText(url); toast('Ссылка скопирована'); }
+      catch { toast('Не удалось скопировать'); }
+    }
+  });
+
+  loadMoreBtn.addEventListener('click', renderPage);
+  let debounce;
+  searchInput.addEventListener('input', e => {
+    currentSearch = e.target.value.trim();
+    clearTimeout(debounce); debounce = setTimeout(loadServers, 400);
+  });
+  filterCategory.addEventListener('change', e => { currentCategory = e.target.value; loadServers(); });
+  filterLanguage.addEventListener('change', e => { currentLanguage = e.target.value; loadServers(); });
+  sortBy.addEventListener('change', e => {
+    currentSort = e.target.value; allData = sortData(allData);
+    page = 0; grid.innerHTML = ''; renderPage();
+  });
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  loadServers();
+</script>
+</body>
+</html>
