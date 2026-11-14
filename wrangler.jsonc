@@ -1,9 +1,0 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "metro-new-partnerly",
-  "main": "worker/index.js",
-  "compatibility_date": "2026-11-07",
-  "assets": {"directory":"./public","binding":"ASSETS","not_found_handling":"single-page-application"},
-  "d1_databases": [{"binding":"DB","database_name":"metro-new-partnerly-db","database_id":"c52a21aa-c211-46a6-9399-a70fad79907a","migrations_dir":"database/migrations"}],
-  "observability":{"enabled":true}
-}
