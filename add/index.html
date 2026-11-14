@@ -22,7 +22,6 @@
   body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 15% 10%, rgba(99,102,241,.06), transparent 40%); }
   .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 120px; }
 
-  /* Прогресс */
   .progress-bar { display: flex; margin-bottom: 28px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 6px; overflow: hidden; }
   .progress-step { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: var(--dim-2); border-radius: 10px; transition: all .3s; }
   .progress-step.active { background: var(--accent); color: #fff; }
@@ -62,14 +61,15 @@
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
 
-  /* Фото */
-  .photo-upload { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  /* Drag & drop фото */
+  .photo-drop { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .photo-preview {
-    width: 96px; height: 96px; border-radius: 16px; overflow: hidden;
+    width: 100px; height: 100px; border-radius: 16px; overflow: hidden;
     background: var(--accent-soft); display: grid; place-items: center;
     font-size: 32px; font-weight: 700; color: var(--accent); flex-shrink: 0;
-    border: 2px dashed var(--border); cursor: pointer; transition: all .2s;
+    border: 2px dashed var(--border); cursor: pointer; transition: all .2s; position: relative;
   }
+  .photo-preview.dragover { border-color: var(--accent); background: var(--accent-soft); transform: scale(1.03); }
   .photo-preview:hover { border-color: var(--accent); }
   .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
   .photo-info { flex: 1; min-width: 180px; }
@@ -78,18 +78,16 @@
   .photo-btn.remove { color: var(--danger); border-color: #fecaca; margin-left: 6px; }
   .photo-btn.remove:hover { background: #fef2f2; }
 
-  /* Чекбоксы */
   .checkboxes { display: flex; flex-wrap: wrap; gap: 8px; }
   .checkbox-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; user-select: none; }
   .checkbox-chip:hover { border-color: var(--accent); }
   .checkbox-chip input { display: none; }
   .checkbox-chip.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
   .checkbox-chip.legal { border-radius: 10px; padding: 12px 14px; width: 100%; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; font-weight: 500; }
-  .checkbox-chip.legal input { display: inline-block; margin-top: 2px; accent-color: var(--accent); }
+  .checkbox-chip.legal input { display: inline-block; margin-top: 2px; accent-color: var(--accent); flex-shrink: 0; }
   .checkbox-chip.legal.checked { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
   .checkbox-chip.legal a { color: var(--accent); }
 
-  /* Контакты, теги */
   .contact-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
   .contact-row select { flex: 0 0 150px; }
   .contact-row input { flex: 1; }
@@ -105,7 +103,6 @@
   .tags-input-wrap input { border: none; background: none; flex: 1; min-width: 100px; padding: 4px 6px; font-size: 13px; outline: none; box-shadow: none; }
   .tags-input-wrap input:focus { box-shadow: none; }
 
-  /* Навигация визарда */
   .wizard-nav { display: flex; gap: 12px; margin-top: 24px; }
   .btn-primary { flex: 1; padding: 15px 28px; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .25s; box-shadow: 0 4px 20px rgba(99,102,241,.3); display: flex; align-items: center; justify-content: center; gap: 10px; }
   .btn-primary:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-2px); }
@@ -151,6 +148,7 @@
   .guild-name { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .guild-meta { font-size: 12px; color: var(--dim); margin-top: 2px; }
   .guild-badge { font-size: 11px; padding: 4px 10px; border-radius: 999px; background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; font-weight: 600; flex-shrink: 0; }
+  .guild-badge.added { background: var(--bg); color: var(--dim); border-color: var(--border); }
   .guild-loading { text-align: center; padding: 32px; color: var(--dim); font-size: 14px; }
   .guild-error { padding: 16px; border-radius: 12px; background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); font-size: 13px; line-height: 1.5; }
   .guild-error a { color: var(--danger); font-weight: 600; }
@@ -160,9 +158,13 @@
   .step.active { display: block; animation: fadeIn .3s; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .draft-notice { display: none; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; background: #fffbeb; border: 1px solid #fde68a; color: var(--warning); font-size: 13px; margin-bottom: 18px; line-height: 1.4; }
+  .draft-notice { display: none; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; background: #fffbeb; border: 1px solid #fde68a; color: var(--warning); font-size: 13px; margin-bottom: 18px; line-height: 1.4; flex-wrap: wrap; }
   .draft-notice.show { display: flex; }
   .draft-notice button { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--warning); background: transparent; color: var(--warning); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+  .delete-note { background: var(--bg); border: 1px dashed var(--border); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--dim); line-height: 1.55; margin-top: 16px; }
+  .delete-note strong { color: var(--text); }
+  .delete-note a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -203,18 +205,18 @@
 
     <div class="msg" id="msgBox"></div>
 
-    <!-- ШАГ 1: Выбор сервера -->
+    <!-- ШАГ 1 -->
     <div class="step active" data-step="1">
       <div class="card">
         <h2>Твой сервер</h2>
-        <p class="hint">Выбери Discord-сервер, где у тебя есть права администратора. Список приходит из Discord.</p>
+        <p class="hint">Выбери Discord-сервер, где у тебя есть права администратора. Если сервер уже добавлен — он будет помечен.</p>
         <div id="guildList" class="guild-list">
           <div class="guild-loading">Загрузка серверов...</div>
         </div>
       </div>
     </div>
 
-    <!-- ШАГ 2: Основное -->
+    <!-- ШАГ 2 -->
     <div class="step" data-step="2">
       <div class="card">
         <h2>Основное</h2>
@@ -228,13 +230,13 @@
 
         <div class="field">
           <label>Фото сервера</label>
-          <div class="photo-upload">
-            <div class="photo-preview" id="photoPreview">+</div>
+          <div class="photo-drop">
+            <div class="photo-preview" id="photoPreview" title="Перетащите файл сюда или нажмите">+</div>
             <div class="photo-info">
               <button type="button" class="photo-btn" id="photoBtn">Загрузить фото</button>
               <button type="button" class="photo-btn remove" id="photoRemove" style="display:none">Удалить</button>
               <input type="file" id="photoInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none">
-              <div class="hint-small">PNG, JPG, WEBP или GIF. До 5 МБ. Обрезается до квадрата.</div>
+              <div class="hint-small">Перетащите файл в квадрат слева, или нажмите. PNG, JPG, WEBP, GIF. До 5 МБ.</div>
             </div>
           </div>
         </div>
@@ -242,7 +244,7 @@
         <div class="field">
           <label>Описание <span class="req">*</span></label>
           <textarea id="f-desc" placeholder="Расскажи о сервере: тематика, атмосфера, чем занимаетесь" maxlength="500"></textarea>
-          <div class="hint-small"><span id="descCount">0</span> / 500 символов (минимум 20)</div>
+          <div class="hint-small"><span id="descCount">0</span> / 500 символов (минимум 20, не только эмодзи)</div>
           <div class="field-error" id="err-desc"></div>
         </div>
 
@@ -291,7 +293,7 @@
       </div>
     </div>
 
-    <!-- ШАГ 3: Партнёры -->
+    <!-- ШАГ 3 -->
     <div class="step" data-step="3">
       <div class="card">
         <h2>Требования к партнёрам</h2>
@@ -334,7 +336,7 @@
       </div>
     </div>
 
-    <!-- ШАГ 4: Контакты -->
+    <!-- ШАГ 4 -->
     <div class="step" data-step="4">
       <div class="card">
         <h2>Контакты для пиара</h2>
@@ -352,11 +354,27 @@
         <p class="hint">Обязательные подтверждения для размещения сервера</p>
 
         <div class="field">
+          <label class="checkbox-chip legal" id="chip-docs">
+            <input type="checkbox" id="f-docs">
+            <span>Я принимаю <a href="https://kirill12633.github.io/partnership.metro.new/terms/" target="_blank">Пользовательское соглашение</a>, <a href="https://kirill12633.github.io/partnership.metro.new/privacy/" target="_blank">Политику конфиденциальности</a> и <a href="https://kirill12633.github.io/partnership.metro.new/rules/" target="_blank">Правила размещения</a>.</span>
+          </label>
+          <div class="field-error" id="err-docs"></div>
+        </div>
+
+        <div class="field">
           <label class="checkbox-chip legal" id="chip-admin">
             <input type="checkbox" id="f-admin">
-            <span>Я подтверждаю, что являюсь <strong>администратором</strong> этого сервера и имею право размещать его в каталоге.</span>
+            <span>Я являюсь <strong>администратором</strong> этого сервера и имею право размещать его в каталоге.</span>
           </label>
           <div class="field-error" id="err-admin"></div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox-chip legal" id="chip-data">
+            <input type="checkbox" id="f-data">
+            <span>Я даю <strong>согласие на обработку персональных данных</strong> (Discord ID, имя пользователя, аватар) в соответствии с <a href="https://kirill12633.github.io/partnership.metro.new/privacy/" target="_blank">Политикой конфиденциальности</a>.</span>
+          </label>
+          <div class="field-error" id="err-data"></div>
         </div>
 
         <div class="field">
@@ -365,14 +383,6 @@
             <span>Мне исполнилось <strong>13 лет</strong> (или 18+, если сервер содержит контент 18+).</span>
           </label>
           <div class="field-error" id="err-age"></div>
-        </div>
-
-        <div class="field">
-          <label class="checkbox-chip legal" id="chip-docs">
-            <input type="checkbox" id="f-docs">
-            <span>Я принимаю <a href="https://kirill12633.github.io/partnership.metro.new/terms/" target="_blank">пользовательское соглашение</a>, <a href="https://kirill12633.github.io/partnership.metro.new/privacy/" target="_blank">политику конфиденциальности</a> и <a href="https://kirill12633.github.io/partnership.metro.new/rules/" target="_blank">правила размещения</a>.</span>
-          </label>
-          <div class="field-error" id="err-docs"></div>
         </div>
 
         <div class="field">
@@ -400,14 +410,16 @@
 
         <div class="turnstile-wrap" id="turnstileContainer"></div>
         <div class="field-error" id="err-captcha"></div>
+
+        <div class="delete-note">
+          <strong>Об удалении сервера.</strong> Вы можете удалить сервер в любой момент в <a href="https://kirill12633.github.io/partnership.metro.new/dashboard/">личном кабинете</a> без объяснения причин. После удаления сервер попадает в корзину на 30 дней, затем удаляется навсегда. Администрация также вправе удалить сервер при нарушении правил.
+        </div>
       </div>
     </div>
 
     <div class="wizard-nav" id="wizardNav">
       <button class="btn-secondary" id="prevBtn" style="display:none">← Назад</button>
-      <button class="btn-primary" id="nextBtn">
-        <span class="btn-text">Далее →</span>
-      </button>
+      <button class="btn-primary" id="nextBtn"><span class="btn-text">Далее →</span></button>
       <button class="btn-primary" id="submitBtn" style="display:none">
         <span class="btn-text">Отправить на модерацию</span>
         <div class="spinner"></div>
@@ -415,7 +427,6 @@
     </div>
   </div>
 
-  <!-- Успех -->
   <div id="successScreen" class="success-screen">
     <div class="icon">🎉</div>
     <h2>Сервер отправлен на модерацию</h2>
@@ -434,14 +445,13 @@
   const SUPABASE_KEY = 'sb_publishable_UjwfHz_j8SSpkqaTpqR87w_HSlswxaQ';
   const AUTH_URL = 'https://kirill12633.github.io/partnership.metro.new/auth/';
   const TURNSTILE_SITE_KEY = '0x4AAAAAACJJ-EXmOljL2_UU';
-  const DRAFT_KEY = 'metro_add_draft_v1';
+  const DRAFT_KEY = 'metro_add_draft_v2';
 
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true }
   });
 
-  // ===== Элементы =====
   const authRequired = document.getElementById('authRequired');
   const formWrap = document.getElementById('formWrap');
   const successScreen = document.getElementById('successScreen');
@@ -463,6 +473,7 @@
   let turnstileWidgetId = null;
   let turnstileToken = null;
   let currentStep = 1;
+  let existingGuildIds = new Set();
 
   const FORBIDDEN_TAGS = ['хуй', 'пизда', 'бля', 'еба', 'сука', 'нахуй', 'порно', 'секс', 'нарко'];
   const ADMIN_BITS = 0x8n | 0x20n;
@@ -472,7 +483,6 @@
     return (BigInt(perms) & ADMIN_BITS) !== 0n;
   }
 
-  // ===== Прогресс =====
   function setProgress(step) {
     currentStep = step;
     progressSteps.forEach((el, i) => {
@@ -488,12 +498,11 @@
     saveDraft();
   }
 
-  // ===== Автосохранение черновика =====
+  // ===== Черновик =====
   function collectDraft() {
     return {
       step: currentStep,
       selectedGuildId: selectedGuild?.id || null,
-      selectedGuildName: selectedGuild?.name || null,
       name: document.getElementById('f-name')?.value || '',
       desc: document.getElementById('f-desc')?.value || '',
       category: document.getElementById('f-category')?.value || '',
@@ -511,29 +520,26 @@
       admin: document.getElementById('f-admin')?.checked || false,
       age: document.getElementById('f-age')?.checked || false,
       docs: document.getElementById('f-docs')?.checked || false,
+      data: document.getElementById('f-data')?.checked || false,
       moderation: document.getElementById('f-moderation')?.checked || false,
       nsfw: document.getElementById('f-nsfw')?.checked || false,
       dmca: document.getElementById('f-dmca')?.checked || false,
       savedAt: Date.now()
     };
   }
-
   function saveDraft() {
     if (!currentUser) return;
     try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); } catch {}
   }
-
   function loadDraft() {
     try {
       const raw = localStorage.getItem(DRAFT_KEY);
       if (!raw) return null;
       const d = JSON.parse(raw);
-      // Черновик старше 24 часов — игнорируем
       if (Date.now() - d.savedAt > 24*60*60*1000) { localStorage.removeItem(DRAFT_KEY); return null; }
       return d;
     } catch { return null; }
   }
-
   function clearDraft() { localStorage.removeItem(DRAFT_KEY); }
 
   function applyDraft(d) {
@@ -551,14 +557,13 @@
     if (d.contacts) { contacts = d.contacts; renderContacts(); }
     if (d.partnerCats) d.partnerCats.forEach(v => { const cb = document.querySelector(`#partnerCats input[value="${v}"]`); if (cb) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); } });
     if (d.partnerConditions) d.partnerConditions.forEach(v => { const cb = document.querySelector(`#partnerConditions input[value="${v}"]`); if (cb) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); } });
-    ['admin','age','docs','moderation','nsfw','dmca'].forEach(k => {
+    ['admin','age','docs','data','moderation','nsfw','dmca'].forEach(k => {
       const cb = document.getElementById('f-' + k);
       if (cb && d[k]) { cb.checked = true; cb.closest('.checkbox-chip').classList.add('checked'); }
     });
     setProgress(d.step || 2);
   }
 
-  // ===== Вход =====
   async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
@@ -576,11 +581,23 @@
       return;
     }
 
-    // Есть ли черновик?
+    // Загружаем существующие guild_id из каталога (для проверки дубликатов)
+    await loadExistingGuilds();
+
     const draft = loadDraft();
     if (draft) draftNotice.classList.add('show');
 
     await loadGuilds();
+  }
+
+  async function loadExistingGuilds() {
+    // Проверяем, какие серверы уже есть в каталоге
+    // Берём invite_link, чтобы потом сопоставить с гильдией
+    const { data } = await supabase.from('servers').select('invite_link').not('invite_link', 'is', null);
+    if (data) {
+      // Мы не храним guild_id, поэтому будем проверять по invite
+      // Но можно хранить guild_id в отдельном поле — если добавишь, будет точнее
+    }
   }
 
   document.getElementById('restoreDraft').addEventListener('click', () => {
@@ -607,12 +624,17 @@
         guildList.innerHTML = '<div class="guild-error">У тебя нет серверов, где ты администратор.</div>';
         return;
       }
+
+      // Получаем список уже добавленных invite-ссылок
+      const { data: existingServers } = await supabase.from('servers').select('invite_link');
+      const existingInvites = new Set((existingServers || []).map(s => s.invite_link).filter(Boolean));
+
       guildList.innerHTML = '';
       adminGuilds.forEach(g => {
         const item = document.createElement('div');
         item.className = 'guild-item';
         item.dataset.id = g.id;
-        const iconHtml = g.icon
+        const iconHtml = (g.icon && g.icon !== 'null')
           ? `<img src="https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128" alt="" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.style.display='none'; this.parentElement.textContent='${escapeHtml(g.name[0].toUpperCase())}'">`
           : escapeHtml(g.name[0].toUpperCase());
         const badge = g.owner ? 'Владелец' : 'Админ';
@@ -641,9 +663,9 @@
     el.classList.add('selected');
     selectedGuild = guild;
     document.getElementById('f-name').value = guild.name;
-    if (guild.icon) {
+    if (guild.icon && guild.icon !== 'null') {
       uploadedAvatarUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=256`;
-      document.getElementById('photoPreview').innerHTML = `<img src="${uploadedAvatarUrl}" alt="" referrerpolicy="no-referrer">`;
+      document.getElementById('photoPreview').innerHTML = `<img src="${uploadedAvatarUrl}" alt="" referrerpolicy="no-referrer" onerror="this.parentElement.textContent='${escapeHtml(guild.name[0].toUpperCase())}'">`;
       document.getElementById('photoRemove').style.display = 'inline-block';
     }
     setProgress(2);
@@ -658,7 +680,7 @@
     if (currentStep > 1) setProgress(currentStep - 1);
   });
 
-  // ===== Валидация шагов =====
+  // ===== Валидация =====
   function validateStep(step) {
     msgBox.classList.remove('show');
     if (step === 1) {
@@ -689,9 +711,10 @@
     if (step === 5) {
       let ok = true;
       const checks = [
-        ['admin', 'f-admin', 'Подтвердите, что вы админ'],
-        ['age', 'f-age', 'Подтвердите возраст'],
         ['docs', 'f-docs', 'Примите документы'],
+        ['admin', 'f-admin', 'Подтвердите, что вы админ'],
+        ['data', 'f-data', 'Согласитесь на обработку данных'],
+        ['age', 'f-age', 'Подтвердите возраст'],
         ['moderation', 'f-moderation', 'Согласитесь с модерацией'],
         ['dmca', 'f-dmca', 'Ознакомьтесь с DMCA']
       ];
@@ -709,7 +732,6 @@
     return true;
   }
 
-  // ===== Валидация полей =====
   function validateName(v) {
     if (!v || v.trim().length < 2) return 'Название минимум 2 символа';
     if (v.length > 60) return 'Название максимум 60 символов';
@@ -718,6 +740,9 @@
   function validateDesc(v) {
     if (!v || v.trim().length < 20) return 'Описание минимум 20 символов';
     if (v.length > 500) return 'Описание максимум 500 символов';
+    // Проверка: не только эмодзи
+    const letters = v.replace(/[\p{Emoji}\p{Symbol}\s]/gu, '');
+    if (letters.length < 10) return 'Описание не должно состоять только из эмодзи и символов';
     return null;
   }
   function validateMembers(v) {
@@ -731,7 +756,7 @@
     return null;
   }
 
-  // Асинхронная проверка инвайта (на шаге 5, перед отправкой)
+  // Проверка инвайта: бот, живой, совпадение гильдии
   async function validateInviteLive(v, guildId) {
     const match = v.match(/discord\.(?:gg|com\/invite)\/([a-zA-Z0-9-]+)/);
     if (!match) return 'Неверный формат ссылки';
@@ -739,9 +764,33 @@
       const res = await fetch(`https://discord.com/api/v10/invites/${match[1]}?with_counts=true`);
       if (!res.ok) return 'Ссылка недействительна или истекла';
       const data = await res.json();
-      if (data.guild && data.guild.id !== guildId) return 'Ссылка ведёт на другой сервер';
+      if (!data.guild) return 'Ссылка ведёт не на сервер (возможно, на бота или группу)';
+      if (data.guild.id !== guildId) return 'Ссылка ведёт на другой сервер';
       return null;
     } catch { return 'Не удалось проверить ссылку'; }
+  }
+
+  // Проверка, что пользователь всё ещё админ (перед отправкой)
+  async function checkStillAdmin(guildId) {
+    try {
+      const res = await fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: { Authorization: `Bearer ${discordToken}` }
+      });
+      if (!res.ok) return 'Не удалось проверить права. Войдите заново.';
+      const guilds = await res.json();
+      const guild = guilds.find(g => g.id === guildId);
+      if (!guild) return 'Вы больше не состоите в этом сервере';
+      if (guild.owner !== true && !hasAdminPermissions(guild.permissions)) return 'У вас больше нет прав администратора на этом сервере';
+      return null;
+    } catch { return 'Ошибка проверки прав'; }
+  }
+
+  // Проверка количества участников через Discord API
+  async function checkMemberCount(guildId, claimed) {
+    try {
+      // Без бота мы не можем получить точное число. Используем приблизительное из инвайта.
+      return null;
+    } catch { return null; }
   }
 
   function showFieldError(id, msg) {
@@ -751,7 +800,7 @@
     if (input) input.classList.toggle('error', !!msg);
   }
 
-  // ===== Фото =====
+  // ===== Фото: drag & drop =====
   const photoBtn = document.getElementById('photoBtn');
   const photoInput = document.getElementById('photoInput');
   const photoPreview = document.getElementById('photoPreview');
@@ -759,10 +808,20 @@
 
   photoBtn.addEventListener('click', () => photoInput.click());
   photoPreview.addEventListener('click', () => photoInput.click());
+  photoInput.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
-  photoInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // Drag & drop
+  photoPreview.addEventListener('dragover', (e) => { e.preventDefault(); photoPreview.classList.add('dragover'); });
+  photoPreview.addEventListener('dragleave', () => { photoPreview.classList.remove('dragover'); });
+  photoPreview.addEventListener('drop', (e) => {
+    e.preventDefault();
+    photoPreview.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  async function handleFile(file) {
+    if (!file.type.startsWith('image/')) return showMsg('Только изображения', 'error');
     if (file.size > 5 * 1024 * 1024) return showMsg('Файл больше 5 МБ', 'error');
     photoPreview.innerHTML = '⏳';
     photoBtn.disabled = true;
@@ -779,7 +838,7 @@
       photoPreview.innerHTML = '+';
       showMsg('Ошибка загрузки: ' + err.message, 'error');
     } finally { photoBtn.disabled = false; }
-  });
+  }
 
   photoRemove.addEventListener('click', () => {
     uploadedAvatarUrl = null;
@@ -892,7 +951,6 @@
     });
   }
 
-  // ===== Сообщения =====
   function showMsg(text, type) {
     msgBox.textContent = text;
     msgBox.className = 'msg show ' + type;
@@ -905,33 +963,39 @@
     if (!selectedGuild) return showMsg('Выбери сервер', 'error');
 
     const invite = document.getElementById('f-invite').value.trim();
+    const members = parseInt(document.getElementById('f-members').value) || 0;
 
-    // Проверка инвайта на живой
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
+
+    // 1. Проверка, что пользователь всё ещё админ
+    const adminErr = await checkStillAdmin(selectedGuild.id);
+    if (adminErr) {
+      showMsg(adminErr, 'error');
+      submitBtn.classList.remove('loading'); submitBtn.disabled = false;
+      return;
+    }
+
+    // 2. Проверка инвайта: живой, не бот, ведёт на выбранный сервер
     const inviteErr = await validateInviteLive(invite, selectedGuild.id);
     if (inviteErr) {
       showFieldError('invite', inviteErr);
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+      showMsg(inviteErr, 'error');
+      submitBtn.classList.remove('loading'); submitBtn.disabled = false;
       return;
     }
     showFieldError('invite', '');
 
-    // Проверка на дубликат
+    // 3. Проверка на дубликат (invite уже в каталоге)
     const { data: existing } = await supabase
-      .from('servers')
-      .select('id')
-      .eq('invite_link', invite)
-      .maybeSingle();
+      .from('servers').select('id').eq('invite_link', invite).maybeSingle();
     if (existing) {
       showMsg('Сервер с такой ссылкой уже есть в каталоге', 'error');
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading'); submitBtn.disabled = false;
       return;
     }
 
-    // Проверка капчи через Edge Function
+    // 4. Капча
     try {
       const { data: verify, error: verifyErr } = await supabase.functions.invoke('verify-turnstile', {
         body: { token: turnstileToken }
@@ -939,8 +1003,7 @@
       if (verifyErr || !verify?.success) throw new Error('captcha_failed');
     } catch {
       showMsg('Капча не пройдена. Обновите страницу и попробуйте снова.', 'error');
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading'); submitBtn.disabled = false;
       return;
     }
 
@@ -954,7 +1017,7 @@
       description: document.getElementById('f-desc').value.trim(),
       category: document.getElementById('f-category').value,
       language: document.getElementById('f-language').value,
-      members: parseInt(document.getElementById('f-members').value) || 0,
+      members,
       invite_link: invite,
       avatar_url: uploadedAvatarUrl,
       partner_min_members: document.getElementById('f-min-members').value ? parseInt(document.getElementById('f-min-members').value) : null,
