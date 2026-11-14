@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пользовательское соглашение — Metro New Partnership</title>
+<link rel="icon" type="image/png" href="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #fafafa; --bg-2: #fff; --border: #e8e8ef;
+    --text: #0f0f1a; --dim: #6b6b80; --dim-2: #9a9ab0;
+    --accent: #6366f1; --accent-2: #8b5cf6; --accent-soft: #eef0ff;
+    --shadow-md: 0 4px 16px rgba(15,15,26,.06);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; background-image: radial-gradient(circle at 85% 10%, rgba(99,102,241,.05), transparent 40%); }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 20px 100px; }
+
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+  .back-link { font-size: 13px; color: var(--dim); text-decoration: none; padding: 8px 14px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-2); transition: all .2s; }
+  .back-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .page-title { font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; line-height: 1.15; }
+  .page-meta { font-size: 13px; color: var(--dim-2); margin-bottom: 32px; }
+
+  .content { background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-md); }
+  @media (max-width: 600px) { .content { padding: 26px 20px; } }
+
+  .content h2 { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin: 32px 0 14px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+  .content h3 { font-size: 16px; font-weight: 700; margin: 22px 0 10px; }
+  .content p { font-size: 14.5px; line-height: 1.7; color: var(--text); margin-bottom: 14px; }
+  .content ul, .content ol { margin: 0 0 16px 0; padding-left: 24px; }
+  .content li { font-size: 14.5px; line-height: 1.7; margin-bottom: 8px; }
+  .content a { color: var(--accent); text-decoration: none; }
+  .content a:hover { text-decoration: underline; }
+  .content strong { font-weight: 700; }
+
+  .info-box { background: var(--accent-soft); border: 1px solid rgba(99,102,241,.18); border-radius: 12px; padding: 16px 18px; margin: 18px 0; font-size: 14px; line-height: 1.6; }
+  .info-box strong { color: var(--accent); }
+
+  .project-card {
+    display: flex; gap: 20px; align-items: center;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px; margin: 20px 0;
+    flex-wrap: wrap; text-decoration: none; color: var(--text);
+    transition: all .2s;
+  }
+  .project-card:hover { border-color: var(--accent); background: var(--bg-2); box-shadow: var(--shadow-md); }
+  .project-icon {
+    width: 64px; height: 64px; border-radius: 16px; overflow: hidden; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center;
+  }
+  .project-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .project-info { flex: 1; min-width: 200px; }
+  .project-name { font-size: 17px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 4px; }
+  .project-desc { font-size: 13px; color: var(--dim); line-height: 1.5; }
+  .project-arrow { color: var(--accent); font-size: 20px; font-weight: 700; }
+
+  .toc { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-bottom: 32px; }
+  .toc h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--dim-2); margin-bottom: 12px; }
+  .toc ol { margin: 0; padding-left: 20px; }
+  .toc li { font-size: 13.5px; line-height: 1.6; margin-bottom: 6px; }
+  .toc a { color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+
+  .footer-note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--dim); text-align: center; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="logo" href="https://kirill12633.github.io/partnership.metro.new/">
+      <div class="logo-mark"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      Metro New Partnership
+    </a>
+    <a class="back-link" href="https://kirill12633.github.io/partnership.metro.new/">← На главную</a>
+  </div>
+
+  <h1 class="page-title">Пользовательское соглашение</h1>
+  <div class="page-meta">Последнее обновление: 14 ноября 2026 г.</div>
+
+  <div class="content">
+
+    <div class="info-box">
+      <strong>Metro New Partnership</strong> — официальная платформа для поиска партнёров и взаимного продвижения Discord-сообществ проекта <strong>Metro New</strong>. Мы помогаем владельцам серверов находить друг друга и расти вместе.
+    </div>
+
+    <h2 id="project">О проекте Metro New</h2>
+    <p>Платформа является частью экосистемы проекта <strong>Metro New</strong> — игрового сообщества в Roblox, посвящённого атмосфере метрополитена.</p>
+
+    <a class="project-card" href="https://kirill12633.github.io/Metro.New.Official/" target="_blank" rel="noopener">
+      <div class="project-icon"><img src="https://kirill12633.github.io/Metro.New.Official/ru/images/metro-icon.png" alt="Metro New"></div>
+      <div class="project-info">
+        <div class="project-name">Metro New</div>
+        <div class="project-desc">Погрузитесь в атмосферу метро с максимальной детализацией. Управляйте поездами, исследуйте станции и станьте частью сообщества.</div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <p><strong>Что предлагает Metro New:</strong></p>
+    <ul>
+      <li><strong>Реалистичные поезда</strong> — разные модели с детализированными интерьерами и физикой вождения.</li>
+      <li><strong>Точные станции</strong> — архитектурные особенности и атмосфера настоящего метро.</li>
+      <li><strong>Мультиплеер</strong> — играйте с друзьями, управляйте маршрутами и создавайте движение.</li>
+      <li><strong>Постоянное развитие</strong> — новые станции, обновления и улучшения каждую неделю.</li>
+      <li><strong>Сообщество</strong> — тысячи игроков, любящих метро, поезда и атмосферу подземных станций.</li>
+    </ul>
+
+    <p>Официальный сайт проекта: <a href="https://kirill12633.github.io/Metro.New.Official/" target="_blank" rel="noopener">kirill12633.github.io/Metro.New.Official</a></p>
+
+    <div class="toc">
+      <h4>Содержание</h4>
+      <ol>
+        <li><a href="#general">Общие положения</a></li>
+        <li><a href="#registration">Регистрация и аккаунт</a></li>
+        <li><a href="#servers">Размещение серверов</a></li>
+        <li><a href="#moderation">Модерация</a></li>
+        <li><a href="#prohibited">Запрещённый контент</a></li>
+        <li><a href="#partnership">Взаимный пиар</a></li>
+        <li><a href="#liability">Ответственность</a></li>
+        <li><a href="#termination">Прекращение доступа</a></li>
+        <li><a href="#changes">Изменения соглашения</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ol>
+    </div>
+
+    <h2 id="general">1. Общие положения</h2>
+    <p>Настоящее Пользовательское соглашение (далее — «Соглашение») регулирует отношения между администрацией платформы <strong>Metro New Partnership</strong> (далее — «Платформа», «мы») и пользователями Платформы (далее — «вы», «Пользователь»).</p>
+    <p>Используя Платформу, вы подтверждаете, что ознакомились с настоящим Соглашением, принимаете его условия и обязуетесь их соблюдать.</p>
+    <p>Если вы не согласны с условиями — пожалуйста, прекратите использование Платформы.</p>
+    <p>Соглашение разработано в соответствии с законодательством РФ и применимыми нормами международного права.</p>
+
+    <h2 id="registration">2. Регистрация и аккаунт</h2>
+    <h3>2.1. Вход через Discord</h3>
+    <p>Для использования Платформы необходима авторизация через Discord OAuth2. При входе вы предоставляете нам доступ к базовым данным вашего Discord-аккаунта (ID, username, avatar) и списку серверов, где вы администратор или владелец.</p>
+
+    <h3>2.2. Требования к возрасту</h3>
+    <p>Для использования Платформы вам должно быть не менее <strong>13 лет</strong>. Если вам меньше 13 лет, вы не можете использовать Платформу.</p>
+    <p>Для размещения серверов с контентом 18+ (NSFW) вам должно быть не менее <strong>18 лет</strong>.</p>
+
+    <h3>2.3. Ответственность за аккаунт</h3>
+    <p>Вы несёте ответственность за все действия, совершённые под вашим аккаунтом. Если вы подозреваете несанкционированный доступ — немедленно сообщите нам.</p>
+
+    <h2 id="servers">3. Размещение серверов</h2>
+    <h3>3.1. Права на размещение</h3>
+    <p>Вы можете размещать только те Discord-серверы, в которых вы являетесь <strong>администратором или владельцем</strong>. Платформа проверяет это через Discord API.</p>
+    <p>Размещая сервер, вы подтверждаете, что имеете право на его продвижение и не нарушаете права третьих лиц.</p>
+
+    <h3>3.2. Достоверность информации</h3>
+    <p>Вы обязуетесь указывать достоверную информацию о сервере: название, описание, количество участников, ссылку-приглашение. Запрещено вводить в заблуждение других пользователей.</p>
+
+    <h3>3.3. Одно лицо — несколько серверов</h3>
+    <p>Вы можете разместить несколько серверов, если являетесь их администратором. Количество серверов не ограничено, но может быть ограничено для защиты от спама.</p>
+
+    <h3>3.4. Модерация</h3>
+    <p>Все новые серверы проходят модерацию. Администрация вправе отклонить заявку без объяснения причин.</p>
+
+    <h2 id="moderation">4. Модерация</h2>
+    <p>Администрация Платформы оставляет за собой право:</p>
+    <ul>
+      <li>Отклонять заявки на размещение серверов без объяснения причин.</li>
+      <li>Удалять серверы, нарушающие правила Платформы.</li>
+      <li>Приостанавливать или прекращать доступ пользователей к Платформе.</li>
+      <li>Изменять правила и функциональность Платформы.</li>
+    </ul>
+    <p>Решения администрации окончательны и не подлежат обжалованию, если иное не предусмотрено законом.</p>
+
+    <h2 id="prohibited">5. Запрещённый контент</h2>
+    <p>Запрещается размещать серверы, содержащие:</p>
+    <ul>
+      <li><strong>Незаконный контент</strong> — нарушающий законодательство РФ или международное право.</li>
+      <li><strong>Контент 18+ без маркировки</strong> — NSFW-контент должен быть явно помечен флагом.</li>
+      <li><strong>Насилие, жестокость</strong> — пропаганда насилия, терроризма, экстремизма.</li>
+      <li><strong>Разжигание ненависти</strong> — по признаку расы, национальности, религии, пола, ориентации.</li>
+      <li><strong>Спам и мошенничество</strong> — фишинг, обман, навязчивая реклама.</li>
+      <li><strong>Нарушение авторских прав</strong> — пиратский контент, нелицензионные материалы.</li>
+      <li><strong>Вредоносные ссылки</strong> — вирусы, трояны, эксплойты.</li>
+      <li><strong>Персональные данные третьих лиц</strong> — без их согласия.</li>
+    </ul>
+    <p>При обнаружении запрещённого контента сервер удаляется, а пользователь может быть заблокирован.</p>
+
+    <h2 id="partnership">6. Взаимный пиар</h2>
+    <p>Платформа предоставляет возможность находить партнёров для взаимного продвижения. Условия партнёрства (размер аудитории, тематика, формат пиара) определяются владельцами серверов самостоятельно.</p>
+    <p>Платформа <strong>не является стороной</strong> договорённостей между владельцами серверов и не несёт ответственности за их исполнение.</p>
+    <p>Если партнёр не выполнил обязательства — сообщите администрации, мы рассмотрим ситуацию.</p>
+
+    <h2 id="liability">7. Ответственность</h2>
+    <p>Платформа предоставляется «как есть». Мы не гарантируем:</p>
+    <ul>
+      <li>Непрерывную работу Платформы без сбоев.</li>
+      <li>Что все серверы в каталоге активны и соответствуют описанию.</li>
+      <li>Что партнёрство с другими серверами принесёт результат.</li>
+    </ul>
+    <p>Мы не несём ответственности за:</p>
+    <ul>
+      <li>Действия владельцев серверов, размещённых в каталоге.</li>
+      <li>Контент, размещённый на сторонних Discord-серверах.</li>
+      <li>Упущенную выгоду или убытки, связанные с использованием Платформы.</li>
+    </ul>
+    <p>Максимальная ответственность Платформы ограничена суммой, которую вы заплатили за использование (Платформа бесплатна — ответственность ограничена нулём).</p>
+
+    <h2 id="termination">8. Прекращение доступа</h2>
+    <h3>8.1. Удаление сервера</h3>
+    <p>Вы можете удалить свой сервер в любой момент в <a href="https://kirill12633.github.io/partnership.metro.new/dashboard/">личном кабинете</a> без объяснения причин. Сервер попадёт в корзину на 30 дней, затем удалится навсегда.</p>
+
+    <h3>8.2. Удаление аккаунта</h3>
+    <p>Чтобы удалить аккаунт и все данные, напишите нам в Discord. Удаление происходит в течение 30 дней.</p>
+
+    <h3>8.3. Блокировка</h3>
+    <p>Мы вправе заблокировать аккаунт при нарушении Соглашения, размещении запрещённого контента или попытке взлома Платформы.</p>
+
+    <h2 id="changes">9. Изменения соглашения</h2>
+    <p>Мы можем обновлять настоящее Соглашение. Актуальная версия всегда доступна на этой странице.</p>
+    <p>При существенных изменениях мы уведомим пользователей через Discord-сервер Платформы.</p>
+    <p>Продолжая использовать Платформу после изменений, вы соглашаетесь с новой редакцией.</p>
+
+    <h2 id="contacts">10. Контакты</h2>
+    <p>По всем вопросам обращайтесь:</p>
+    <ul>
+      <li><strong>Discord-сервер:</strong> <a href="https://discord.com/invite/WjGZBs3HMX" target="_blank" rel="noopener">discord.gg/WjGZBs3HMX</a></li>
+      <li><strong>Telegram:</strong> <a href="https://t.me/Metro_New_Official" target="_blank" rel="noopener">@Metro_New_Official</a></li>
+      <li><strong>Сайт проекта:</strong> <a href="https://kirill12633.github.io/Metro.New.Official/" target="_blank" rel="noopener">Metro New Official</a></li>
+    </ul>
+
+    <div class="footer-note">
+      © 2026 Metro New Partnership. Все права защищены.<br>
+      <a href="https://kirill12633.github.io/partnership.metro.new/privacy/">Политика конфиденциальности</a> ·
+      <a href="https://kirill12633.github.io/partnership.metro.new/rules/">Правила размещения</a> ·
+      <a href="https://kirill12633.github.io/partnership.metro.new/dmca/">Политика DMCA</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
